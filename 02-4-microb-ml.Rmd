@@ -1,0 +1,560 @@
+# (PART) MICROBIOME MACHINE LEARNING {-}
+
+# How do I prepare microbiome data for machine learning?
+
+## Explanation
+
+Before applying machine learning, you must structure your OTU table and metadata into a form suitable for modeling.
+
+Typical steps include:
+- **Filtering**: Keep relevant OTUs/features
+- **Merging**: Align OTU table with sample metadata
+- **Encoding**: Set up group labels (e.g., Control = 0, Treatment = 1)
+- **Splitting**: Train-test split to evaluate generalizability
+
+This Q&A sets up data for classification.
+
+## Python Code
+```python
+import pandas as pd
+from sklearn.model_selection import train_test_split
+
+# Load data
+otu_df = pd.read_csv("data/otu_table_filtered.tsv", sep="\t", index_col=0).T
+meta_df = pd.read_csv("data/sample_metadata.tsv", sep="\t")
+
+# Merge OTU table with metadata by sample
+data = pd.merge(otu_df, meta_df, left_index=True, right_on="sample_id")
+
+# Define features (X) and labels (y)
+X = data[otu_df.columns]  # OTU features
+y = data["group"].map({"Control": 0, "Treatment": 1})  # binary encoding
+
+# Split into training/testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Check shape
+print("Train shape:", X_train.shape)
+print("Test shape:", X_test.shape)
+```
+
+## R Note
+```{r}
+# Most ML pipelines in microbiome analysis are performed in Python.
+# In R, similar workflows can be built using caret, tidymodels, or mlr3.
+```
+
+# How do I train and evaluate a Random Forest classifier on microbiome data?
+
+## Explanation
+
+The **Random Forest** algorithm is a popular and robust model for microbiome classification tasks due to its:
+- Built-in feature importance
+- Resistance to overfitting
+- Non-linear modeling capability
+
+This Q&A demonstrates how to:
+- Train a Random Forest classifier
+- Evaluate it using accuracy and confusion matrix
+- Inspect important OTUs
+
+## Python Code
+```python
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.model_selection import train_test_split
+
+# Load and prepare data
+otu_df = pd.read_csv("data/otu_table_filtered.tsv", sep="\t", index_col=0).T
+meta_df = pd.read_csv("data/sample_metadata.tsv", sep="\t")
+data = pd.merge(otu_df, meta_df, left_index=True, right_on="sample_id")
+X = data[otu_df.columns]
+y = data["group"].map({"Control": 0, "Treatment": 1})
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Train Random Forest
+clf = RandomForestClassifier(n_estimators=100, random_state=42)
+clf.fit(X_train, y_train)
+
+# Predict and evaluate
+y_pred = clf.predict(X_test)
+acc = accuracy_score(y_test, y_pred)
+cm = confusion_matrix(y_test, y_pred)
+
+print(f"Accuracy: {acc:.2f}")
+print("Confusion Matrix:")
+print(cm)
+
+# Top 5 important OTUs
+feat_imp = pd.Series(clf.feature_importances_, index=X.columns)
+print("Top OTUs:
+", feat_imp.sort_values(ascending=False).head())
+```
+
+## R Code (caret)
+```{r}
+library(tidyverse)
+library(caret)
+
+otu_df <- read.delim("data/otu_table_filtered.tsv", row.names = 1)
+meta_df <- read.delim("data/sample_metadata.tsv")
+otu_df <- otu_df[, meta_df$sample_id]
+otu_df <- t(otu_df)
+data <- cbind(as.data.frame(otu_df), group = meta_df$group)
+
+# Encode group and split
+data$group <- as.factor(data$group)
+set.seed(42)
+trainIndex <- createDataPartition(data$group, p = .7, list = FALSE)
+train <- data[trainIndex, ]
+test  <- data[-trainIndex, ]
+
+# Train Random Forest
+rf_model <- train(group ~ ., data = train, method = "rf", trControl = trainControl(method = "cv", number = 5))
+
+# Predict and evaluate
+pred <- predict(rf_model, newdata = test)
+confusionMatrix(pred, test$group)
+```
+
+# How do I build a Logistic Regression model for microbiome classification?
+
+## Explanation
+
+**Logistic Regression** is a foundational classification model useful for:
+- Binary prediction (e.g., Control vs Treatment)
+- Interpreting OTU effects via coefficients
+- Establishing baselines before more complex models
+
+This Q&A shows how to train and evaluate a Logistic Regression model.
+
+## Python Code
+```python
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.model_selection import train_test_split
+
+# Load and prepare data
+otu_df = pd.read_csv("data/otu_table_filtered.tsv", sep="\t", index_col=0).T
+meta_df = pd.read_csv("data/sample_metadata.tsv", sep="\t")
+data = pd.merge(otu_df, meta_df, left_index=True, right_on="sample_id")
+X = data[otu_df.columns]
+y = data["group"].map({"Control": 0, "Treatment": 1})
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Train logistic regression model
+model = LogisticRegression(max_iter=1000, random_state=42)
+model.fit(X_train, y_train)
+
+# Predict and evaluate
+y_pred = model.predict(X_test)
+acc = accuracy_score(y_test, y_pred)
+cm = confusion_matrix(y_test, y_pred)
+
+print(f"Accuracy: {acc:.2f}")
+print("Confusion Matrix:")
+print(cm)
+
+# Inspect top OTUs by absolute coefficient magnitude
+coef = pd.Series(model.coef_[0], index=X.columns)
+print("Top OTUs:
+", coef.abs().sort_values(ascending=False).head())
+```
+
+## R Code (caret)
+```{r}
+library(tidyverse)
+library(caret)
+
+otu_df <- read.delim("data/otu_table_filtered.tsv", row.names = 1)
+meta_df <- read.delim("data/sample_metadata.tsv")
+otu_df <- otu_df[, meta_df$sample_id]
+otu_df <- t(otu_df)
+data <- cbind(as.data.frame(otu_df), group = meta_df$group)
+
+# Encode group and split
+data$group <- as.factor(data$group)
+set.seed(42)
+trainIndex <- createDataPartition(data$group, p = .7, list = FALSE)
+train <- data[trainIndex, ]
+test  <- data[-trainIndex, ]
+
+# Train logistic regression
+lr_model <- train(group ~ ., data = train, method = "glm", family = "binomial", trControl = trainControl(method = "cv", number = 5))
+
+# Predict and evaluate
+pred <- predict(lr_model, newdata = test)
+confusionMatrix(pred, test$group)
+```
+
+# How do I train a Support Vector Machine (SVM) for microbiome classification?
+
+## Explanation
+
+**Support Vector Machines (SVM)** are powerful classifiers for high-dimensional biological data. They find a decision boundary (hyperplane) that maximizes class separation.
+
+SVMs are well-suited for microbiome data because:
+- They can handle many features (OTUs)
+- Work with kernel functions for non-linear separation
+- Often perform well with sparse data
+
+## Python Code
+```python
+import pandas as pd
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.model_selection import train_test_split
+
+# Load and prepare data
+otu_df = pd.read_csv("data/otu_table_filtered.tsv", sep="\t", index_col=0).T
+meta_df = pd.read_csv("data/sample_metadata.tsv", sep="\t")
+data = pd.merge(otu_df, meta_df, left_index=True, right_on="sample_id")
+X = data[otu_df.columns]
+y = data["group"].map({"Control": 0, "Treatment": 1})
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Train SVM
+model = SVC(kernel='linear', probability=True, random_state=42)
+model.fit(X_train, y_train)
+
+# Predict and evaluate
+y_pred = model.predict(X_test)
+acc = accuracy_score(y_test, y_pred)
+cm = confusion_matrix(y_test, y_pred)
+
+print(f"Accuracy: {acc:.2f}")
+print("Confusion Matrix:")
+print(cm)
+```
+
+## R Code (caret)
+```{r}
+library(tidyverse)
+library(caret)
+
+otu_df <- read.delim("data/otu_table_filtered.tsv", row.names = 1)
+meta_df <- read.delim("data/sample_metadata.tsv")
+otu_df <- otu_df[, meta_df$sample_id]
+otu_df <- t(otu_df)
+data <- cbind(as.data.frame(otu_df), group = meta_df$group)
+
+# Encode group and split
+data$group <- as.factor(data$group)
+set.seed(42)
+trainIndex <- createDataPartition(data$group, p = .7, list = FALSE)
+train <- data[trainIndex, ]
+test  <- data[-trainIndex, ]
+
+# Train SVM
+svm_model <- train(group ~ ., data = train, method = "svmLinear", trControl = trainControl(method = "cv", number = 5))
+
+# Predict and evaluate
+pred <- predict(svm_model, newdata = test)
+confusionMatrix(pred, test$group)
+```
+
+# How do I apply Gradient Boosting (XGBoost) for microbiome classification?
+
+## Explanation
+
+**XGBoost** is an efficient, scalable gradient boosting algorithm widely used in biological classification tasks. It's known for:
+- High performance on structured/tabular data
+- Handling of missing values
+- Built-in feature importance metrics
+
+This Q&A shows how to train and evaluate an XGBoost classifier.
+
+## Python Code
+
+```python
+import pandas as pd
+from xgboost import XGBClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.model_selection import train_test_split
+
+# Load and prepare data
+otu_df = pd.read_csv("data/otu_table_filtered.tsv", sep="\t", index_col=0).T
+meta_df = pd.read_csv("data/sample_metadata.tsv", sep="\t")
+data = pd.merge(otu_df, meta_df, left_index=True, right_on="sample_id")
+X = data[otu_df.columns]
+y = data["group"].map({"Control": 0, "Treatment": 1})
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Train XGBoost classifier
+model = XGBClassifier(use_label_encoder=False, eval_metric='logloss', random_state=42)
+model.fit(X_train, y_train)
+
+# Predict and evaluate
+y_pred = model.predict(X_test)
+acc = accuracy_score(y_test, y_pred)
+cm = confusion_matrix(y_test, y_pred)
+
+print(f"Accuracy: {acc:.2f}")
+print("Confusion Matrix:")
+print(cm)
+
+# Top important OTUs
+importances = pd.Series(model.feature_importances_, index=X.columns)
+print("Top Features:
+", importances.sort_values(ascending=False).head())
+```
+
+## R Code (caret + xgboost)
+```{r}
+library(tidyverse)
+library(caret)
+library(xgboost)
+
+otu_df <- read.delim("data/otu_table_filtered.tsv", row.names = 1)
+meta_df <- read.delim("data/sample_metadata.tsv")
+otu_df <- otu_df[, meta_df$sample_id]
+otu_df <- t(otu_df)
+data <- cbind(as.data.frame(otu_df), group = meta_df$group)
+
+# Encode group and split
+data$group <- as.factor(data$group)
+set.seed(42)
+trainIndex <- createDataPartition(data$group, p = .7, list = FALSE)
+train <- data[trainIndex, ]
+test  <- data[-trainIndex, ]
+
+# Train XGBoost
+xgb_model <- train(group ~ ., data = train, method = "xgbTree", trControl = trainControl(method = "cv", number = 5))
+
+# Predict and evaluate
+pred <- predict(xgb_model, newdata = test)
+confusionMatrix(pred, test$group)
+```
+
+# How do I visualize ROC curves to compare classification models?
+
+## Explanation
+
+**Receiver Operating Characteristic (ROC) curves** help visualize model performance across different thresholds. The **Area Under the Curve (AUC)** summarizes performance — closer to 1.0 is better.
+
+Comparing ROC curves across models (e.g., Random Forest, Logistic Regression, XGBoost) provides insight into which performs best and where they differ.
+
+This Q&A demonstrates ROC curve generation in Python and R.
+
+## Python Code
+```python
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from xgboost import XGBClassifier
+from sklearn.metrics import roc_curve, auc
+import matplotlib.pyplot as plt
+
+# Load and prepare data
+otu_df = pd.read_csv("data/otu_table_filtered.tsv", sep="\t", index_col=0).T
+meta_df = pd.read_csv("data/sample_metadata.tsv", sep="\t")
+data = pd.merge(otu_df, meta_df, left_index=True, right_on="sample_id")
+X = data[otu_df.columns]
+y = data["group"].map({"Control": 0, "Treatment": 1})
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Define models
+models = {
+    "Random Forest": RandomForestClassifier(random_state=42),
+    "Logistic Regression": LogisticRegression(max_iter=1000),
+    "XGBoost": XGBClassifier(use_label_encoder=False, eval_metric="logloss", random_state=42)
+}
+
+# Plot ROC curves
+plt.figure(figsize=(8, 6))
+for name, model in models.items():
+    model.fit(X_train, y_train)
+    probas = model.predict_proba(X_test)[:, 1]
+    fpr, tpr, _ = roc_curve(y_test, probas)
+    auc_score = auc(fpr, tpr)
+    plt.plot(fpr, tpr, label=f"{name} (AUC = {auc_score:.2f})")
+
+plt.plot([0, 1], [0, 1], "k--")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("ROC Curve Comparison")
+plt.legend()
+plt.tight_layout()
+plt.show()
+```
+
+## R Code (caret + pROC)
+```{r eval=FALSE}
+library(tidyverse)
+library(caret)
+library(pROC)
+
+otu_df <- read.delim("data/otu_table_filtered.tsv", row.names = 1)
+meta_df <- read.delim("data/sample_metadata.tsv")
+otu_df <- otu_df[, meta_df$sample_id]
+otu_df <- t(otu_df)
+data <- cbind(as.data.frame(otu_df), group = as.factor(meta_df$group))
+
+# Train/test split
+set.seed(42)
+trainIndex <- createDataPartition(data$group, p = .7, list = FALSE)
+train <- data[trainIndex, ]
+test  <- data[-trainIndex, ]
+
+# Define fixed tuning for models that require it
+rf_grid <- data.frame(mtry = floor(sqrt(ncol(train) - 1)))
+svm_grid <- data.frame(C = 1)
+xgb_grid <- data.frame(
+  nrounds = 50,
+  max_depth = 3,
+  eta = 0.3,
+  gamma = 0,
+  colsample_bytree = 1,
+  min_child_weight = 1,
+  subsample = 1
+)
+
+# Train models using fixed tuneGrid
+models <- list(
+  rf = train(group ~ ., data = train, method = "rf", trControl = trainControl(method = "none"), tuneGrid = rf_grid),
+  glm = train(group ~ ., data = train, method = "glm", family = "binomial", trControl = trainControl(method = "none")),
+  svm = train(group ~ ., data = train, method = "svmLinear", trControl = trainControl(method = "none"), tuneGrid = svm_grid),
+  xgb = train(group ~ ., data = train, method = "xgbTree", trControl = trainControl(method = "none"), tuneGrid = xgb_grid)
+)
+
+# ROC analysis
+roc_list <- lapply(models, function(model) {
+  probs <- predict(model, newdata = test, type = "prob")
+  # Safely extract numeric probabilities for the "Treatment" class
+  class_label <- "Treatment"
+  if (!(class_label %in% colnames(probs))) {
+    stop(paste("Class label", class_label, "not found in predicted probabilities"))
+  }
+  prob_values <- as.numeric(probs[, class_label])
+  roc(response = test$group, predictor = prob_values)
+})
+
+# Plot ROC
+plot(roc_list[[1]], col = "blue", legacy.axes = TRUE, main = "ROC Curves - Microbiome Classification")
+cols <- c("blue", "green", "red", "purple")
+for (i in 2:length(roc_list)) {
+  plot(roc_list[[i]], col = cols[i], add = TRUE)
+}
+legend("bottomright", legend = names(models), col = cols, lwd = 2)
+```
+
+
+# How do I apply cross-validation strategies to evaluate model reliability?
+
+## Explanation
+
+**Cross-validation (CV)** is critical for evaluating how well a machine learning model generalizes to unseen data. It reduces the risk of overfitting by testing the model on multiple train/test splits.
+
+Common CV strategies:
+- **k-Fold**: Split into k subsets, rotate test set
+- **Repeated k-Fold**: More robust by repeating k-fold several times
+- **Stratified k-Fold**: Ensures balanced class distribution in folds
+
+This Q&A shows how to apply CV in Python and R using common microbiome classifiers.
+
+## Python Code
+```python
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import cross_val_score, StratifiedKFold
+
+# Load and prepare data
+otu_df = pd.read_csv("data/otu_table_filtered.tsv", sep="\t", index_col=0).T
+meta_df = pd.read_csv("data/sample_metadata.tsv", sep="\t")
+data = pd.merge(otu_df, meta_df, left_index=True, right_on="sample_id")
+X = data[otu_df.columns]
+y = data["group"].map({"Control": 0, "Treatment": 1})
+
+# Define CV strategy
+cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+
+# Evaluate Random Forest using cross-validation
+model = RandomForestClassifier(random_state=42)
+scores = cross_val_score(model, X, y, cv=cv, scoring="accuracy")
+
+print("Cross-Validation Accuracy Scores:", scores)
+print("Mean Accuracy:", scores.mean())
+```
+
+## R Code (caret with repeated k-fold CV)
+```{r}
+library(tidyverse)
+library(caret)
+
+otu_df <- read.delim("data/otu_table_filtered.tsv", row.names = 1)
+meta_df <- read.delim("data/sample_metadata.tsv")
+otu_df <- otu_df[, meta_df$sample_id]
+otu_df <- t(otu_df)
+data <- cbind(as.data.frame(otu_df), group = as.factor(meta_df$group))
+
+# Define CV control
+ctrl <- trainControl(method = "repeatedcv", number = 5, repeats = 3)
+
+# Train with CV
+set.seed(42)
+cv_model <- train(group ~ ., data = data, method = "rf", trControl = ctrl)
+
+# Results
+print(cv_model)
+plot(cv_model)
+```
+
+# How do I use `mikropml` in R for microbiome machine learning?
+
+## Explanation
+
+[`mikropml`](https://github.com/SchlossLab/mikropml) is a microbiome-focused R package by Pat Schloss designed for:
+- End-to-end modeling workflows
+- Built-in cross-validation and hyperparameter tuning
+- Transparency in model reporting and evaluation
+
+It simplifies the process of building, tuning, and interpreting microbiome ML models.
+
+This Q&A introduces a basic pipeline using `mikropml` and prepares the OTU and metadata files as expected.
+
+## R Code
+
+```{r}
+# 📦 Ensure mikropml is installed
+if (!requireNamespace("mikropml", quietly = TRUE)) {
+  if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes")
+  remotes::install_github("SchlossLab/mikropml")
+}
+
+library(mikropml)
+library(tidyverse)
+
+# Load OTU table and metadata
+otu <- read.delim("data/otu_table_filtered.tsv", row.names = 1)
+meta <- read.delim("data/sample_metadata.tsv")
+
+# Transpose OTU so samples are rows
+otu_t <- t(otu)
+otu_df <- as.data.frame(otu_t)
+otu_df$sample_id <- rownames(otu_t)
+
+# Merge with metadata
+data <- inner_join(otu_df, meta, by = "sample_id")
+
+# Run mikropml using run_ml()
+set.seed(42)
+fit <- run_ml(
+  dataset = data,
+  outcome_colname = "group",
+  method = "rf",        # Choose from rf, svm, glmnet, xgb
+  seed = 42
+)
+
+# View model summary
+summary(fit)
+
+# Plot variable importance
+fit$importance_plot
+```
+
+## Notes
+- mikropl supports additional tuning and export for reproducibility.
+- `mikropml()` auto-detects classification vs regression tasks.

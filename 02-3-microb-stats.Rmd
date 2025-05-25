@@ -1,0 +1,297 @@
+# (PART) MICROBIOME STATS {-}
+
+# How do I statistically compare OTU richness between groups?
+
+## Explanation
+
+Once you’ve calculated **alpha diversity** (e.g., observed OTUs per sample), it’s common to test whether **groups differ significantly**. This can help you determine if an experimental condition affects microbial richness.
+
+Typical tests include:
+- **T-test** (for two groups, normally distributed data)
+- **Wilcoxon rank-sum test** (non-parametric)
+- **ANOVA or Kruskal-Wallis** (for 3+ groups)
+
+Here we demonstrate group comparison for **richness** using appropriate statistical tests.
+
+## Python Code
+```python
+import pandas as pd
+from scipy.stats import ttest_ind, mannwhitneyu
+
+# Load richness and metadata
+otu_df = pd.read_csv("data/otu_table_filtered.tsv", sep="\t", index_col=0)
+meta_df = pd.read_csv("data/sample_metadata.tsv", sep="\t")
+
+# Compute richness
+richness = pd.DataFrame({
+    "sample_id": otu_df.columns,
+    "richness": (otu_df > 0).sum(axis=0).values
+})
+data = pd.merge(richness, meta_df, on="sample_id")
+
+# Split by group
+control = data[data["group"] == "Control"]["richness"]
+treatment = data[data["group"] == "Treatment"]["richness"]
+
+# T-test (assumes normality)
+t_stat, t_pval = ttest_ind(control, treatment)
+
+# Wilcoxon (non-parametric)
+w_stat, w_pval = mannwhitneyu(control, treatment)
+
+print(f"T-test p-value: {t_pval:.4f}")
+print(f"Wilcoxon test p-value: {w_pval:.4f}")
+```
+
+## R Code
+```{r}
+library(tidyverse)
+
+otu_df <- read.delim("data/otu_table_filtered.tsv", row.names = 1)
+meta_df <- read.delim("data/sample_metadata.tsv")
+
+# Calculate richness
+richness <- colSums(otu_df > 0)
+richness_df <- data.frame(sample_id = names(richness), richness = richness)
+merged <- left_join(richness_df, meta_df, by = "sample_id")
+
+# T-test
+t_test <- t.test(richness ~ group, data = merged)
+
+# Wilcoxon test
+wilcox_test <- wilcox.test(richness ~ group, data = merged)
+
+t_test$p.value
+wilcox_test$p.value
+```
+
+# How do I test for correlation between alpha diversity and age?
+
+## Explanation
+
+In many studies, you may want to examine whether microbial diversity is associated with continuous metadata like **age**, **BMI**, or **pH**.
+
+Correlation tests help assess linear or monotonic relationships between variables:
+- **Pearson correlation**: for linear relationships (assumes normality)
+- **Spearman correlation**: for monotonic (rank-based) associations (non-parametric)
+
+This Q&A demonstrates testing correlation between **richness** and **age**.
+
+## Python Code
+```python
+import pandas as pd
+from scipy.stats import pearsonr, spearmanr
+
+# Load OTU and metadata
+otu_df = pd.read_csv("data/otu_table_filtered.tsv", sep="\t", index_col=0)
+meta_df = pd.read_csv("data/sample_metadata.tsv", sep="\t")
+
+# Compute richness
+richness = pd.DataFrame({
+    "sample_id": otu_df.columns,
+    "richness": (otu_df > 0).sum(axis=0).values
+})
+data = pd.merge(richness, meta_df, on="sample_id")
+
+# Pearson correlation
+pearson_corr, pearson_pval = pearsonr(data["richness"], data["age"])
+
+# Spearman correlation
+spearman_corr, spearman_pval = spearmanr(data["richness"], data["age"])
+
+print(f"Pearson r: {pearson_corr:.3f}, p = {pearson_pval:.4f}")
+print(f"Spearman rho: {spearman_corr:.3f}, p = {spearman_pval:.4f}")
+```
+
+## R Code
+```{r}
+library(tidyverse)
+
+otu_df <- read.delim("data/otu_table_filtered.tsv", row.names = 1)
+meta_df <- read.delim("data/sample_metadata.tsv")
+
+# Compute richness
+richness <- colSums(otu_df > 0)
+richness_df <- data.frame(sample_id = names(richness), richness = richness)
+merged <- left_join(richness_df, meta_df, by = "sample_id")
+
+# Pearson correlation
+cor.test(merged$richness, merged$age, method = "pearson")
+
+# Spearman correlation
+cor.test(merged$richness, merged$age, method = "spearman")
+```
+
+# How do I compare alpha diversity across 3 or more groups?
+
+## Explanation
+
+When comparing microbial richness across more than two groups, you can use:
+- **ANOVA**: if data are normally distributed
+- **Kruskal-Wallis test**: non-parametric alternative
+
+This Q&A tests whether OTU richness differs by **body location** (e.g., gut, skin).
+
+## Python Code
+```python
+import pandas as pd
+from scipy.stats import f_oneway, kruskal
+
+# Load data
+otu_df = pd.read_csv("data/otu_table_filtered.tsv", sep="\t", index_col=0)
+meta_df = pd.read_csv("data/sample_metadata.tsv", sep="\t")
+
+# Compute richness
+richness = pd.DataFrame({
+    "sample_id": otu_df.columns,
+    "richness": (otu_df > 0).sum(axis=0).values
+})
+data = pd.merge(richness, meta_df, on="sample_id")
+
+# Split richness by location
+groups = [group["richness"].values for name, group in data.groupby("location")]
+
+# ANOVA
+f_stat, f_pval = f_oneway(*groups)
+
+# Kruskal-Wallis
+kw_stat, kw_pval = kruskal(*groups)
+
+print(f"ANOVA p-value: {f_pval:.4f}")
+print(f"Kruskal-Wallis p-value: {kw_pval:.4f}")
+```
+
+## R Code
+```{r}
+library(tidyverse)
+
+otu_df <- read.delim("data/otu_table_filtered.tsv", row.names = 1)
+meta_df <- read.delim("data/sample_metadata.tsv")
+
+# Compute richness
+richness <- colSums(otu_df > 0)
+richness_df <- data.frame(sample_id = names(richness), richness = richness)
+merged <- left_join(richness_df, meta_df, by = "sample_id")
+
+# ANOVA
+anova_res <- aov(richness ~ location, data = merged)
+
+# Kruskal-Wallis
+kruskal_res <- kruskal.test(richness ~ location, data = merged)
+
+summary(anova_res)
+kruskal_res
+```
+
+# How do I test for differences in community composition using PERMANOVA?
+
+## Explanation
+
+**PERMANOVA** (Permutational Multivariate Analysis of Variance) is used to test whether **beta diversity** significantly differs between groups.
+
+It operates on a dissimilarity matrix (e.g., Bray-Curtis) and partitions variation based on experimental factors like **treatment group** or **location**.
+
+This Q&A applies PERMANOVA to Bray-Curtis distances computed from OTU abundances.
+
+## Python Code
+```python
+import pandas as pd
+from skbio.diversity import beta_diversity
+from skbio.stats.distance import permanova
+from skbio import DistanceMatrix
+
+# Load data
+otu_df = pd.read_csv("data/otu_table_filtered.tsv", sep="\t", index_col=0).T
+meta_df = pd.read_csv("data/sample_metadata.tsv", sep="\t")
+
+# Compute Bray-Curtis distance matrix
+bray_dm = beta_diversity("braycurtis", otu_df.values, ids=otu_df.index)
+
+# Format metadata
+meta_df = meta_df.set_index("sample_id").loc[otu_df.index]
+
+# Run PERMANOVA
+result = permanova(distance_matrix=bray_dm, grouping=meta_df["group"], permutations=999)
+print(result)
+```
+
+## R Code
+```{r}
+library(vegan)
+library(tidyverse)
+
+otu_df <- read.delim("data/otu_table_filtered.tsv", row.names = 1)
+meta_df <- read.delim("data/sample_metadata.tsv")
+
+# Bray-Curtis distance
+otu_t <- t(otu_df)
+bray <- vegdist(otu_t, method = "bray")
+
+# Match metadata
+meta_df <- meta_df %>% filter(sample_id %in% rownames(otu_t)) %>% column_to_rownames("sample_id")
+
+# Run PERMANOVA (adonis)
+adonis_res <- adonis2(bray ~ group, data = meta_df, permutations = 999)
+
+adonis_res
+```
+
+# How do I test for differential abundance of OTUs across groups?
+
+## Explanation
+
+Differential abundance analysis identifies OTUs that significantly differ between groups (e.g., Control vs Treatment).
+
+While tools like **DESeq2** are used for RNA-seq and microbiome count data, simpler methods like:
+- **Wilcoxon tests**
+- **t-tests**
+- **ANCOM / ALDEx2** (specialized tools)  
+can also be used with filtered OTU data.
+
+Here we demonstrate how to test one OTU at a time between groups.
+
+## Python Code
+```python
+import pandas as pd
+from scipy.stats import mannwhitneyu
+
+# Load OTU table and metadata
+otu_df = pd.read_csv("data/otu_table_filtered.tsv", sep="\t", index_col=0)
+meta_df = pd.read_csv("data/sample_metadata.tsv", sep="\t").set_index("sample_id")
+otu_df = otu_df[meta_df.index]  # ensure matching
+
+# Perform Wilcoxon test for each OTU
+results = []
+for otu in otu_df.index:
+    control = otu_df.loc[otu, meta_df["group"] == "Control"]
+    treatment = otu_df.loc[otu, meta_df["group"] == "Treatment"]
+    stat, pval = mannwhitneyu(control, treatment)
+    results.append((otu, pval))
+
+# Convert to DataFrame
+df_results = pd.DataFrame(results, columns=["OTU", "p_value"])
+df_results["adjusted_p"] = df_results["p_value"] * len(df_results)  # Bonferroni
+df_results.sort_values("p_value").head()
+```
+
+## R Code
+```{r}
+library(tidyverse)
+
+otu_df <- read.delim("data/otu_table_filtered.tsv", row.names = 1)
+meta_df <- read.delim("data/sample_metadata.tsv")
+
+# Ensure sample order matches
+otu_df <- otu_df[, meta_df$sample_id]
+
+# Run Wilcoxon test for each OTU
+results <- apply(otu_df, 1, function(x) {
+  group <- meta_df$group
+  test <- wilcox.test(x[group == "Control"], x[group == "Treatment"])
+  return(test$p.value)
+})
+
+df_results <- data.frame(OTU = rownames(otu_df), p_value = results)
+df_results$adjusted_p <- p.adjust(df_results$p_value, method = "bonferroni")
+head(df_results[order(df_results$p_value), ])
+```

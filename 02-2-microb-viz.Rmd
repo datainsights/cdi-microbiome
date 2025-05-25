@@ -1,0 +1,336 @@
+# (PART) MICROBIOME DATA VISUALIZATION {-}
+
+# How do I visualize total OTU abundance per sample?
+
+## Explanation
+
+Before diving into deeper microbiome comparisons, it’s helpful to visualize the **sequencing depth** — the total number of OTU counts per sample. This allows you to check:
+- Sample variability
+- Potential outliers
+- Overall library size distribution
+
+Using modern tools like **ggplot2** in R or **seaborn** in Python helps create clearer, more elegant plots.
+
+## Python Code
+```python
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load OTU table
+otu_df = pd.read_csv("data/otu_table_filtered.tsv", sep="\t", index_col=0)
+
+# Prepare data
+total_counts = otu_df.sum(axis=0).reset_index()
+total_counts.columns = ["Sample", "Total_OTUs"]
+
+# Plot
+plt.figure(figsize=(10, 5))
+sns.barplot(data=total_counts, x="Sample", y="Total_OTUs", palette="viridis")
+plt.title("Total OTU Abundance Per Sample")
+plt.xticks(rotation=45)
+plt.ylabel("Total OTU Counts")
+plt.tight_layout()
+plt.show()
+```
+
+## R Code
+```{r}
+library(tidyverse)
+
+otu_df <- read.delim("data/otu_table_filtered.tsv", row.names = 1)
+otu_long <- colSums(otu_df) %>%
+  enframe(name = "Sample", value = "Total_OTUs")
+
+ggplot(otu_long, aes(x = Sample, y = Total_OTUs)) +
+  geom_col(fill = "#0073C2FF") +
+  labs(title = "Total OTU Abundance Per Sample", y = "Total OTU Counts") +
+  theme_minimal(base_size = 13) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+# How do I create a stacked bar plot of top genera across samples?
+
+## Explanation
+
+Stacked bar plots are widely used in microbiome studies to show **relative abundance** of microbial taxa across samples. This visual helps assess:
+- Community composition
+- Dominant vs rare genera
+- Variability between sample groups
+
+Here we simulate a relative abundance plot using the **Genus** column from the taxonomy file merged with the OTU table.
+
+## Python Code
+```python
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load OTU table and taxonomy
+otu_df = pd.read_csv("data/otu_table_filtered.tsv", sep="\t", index_col=0)
+tax_df = pd.read_csv("data/otu_taxonomy.tsv")
+
+# Merge taxonomy info (Genus) with OTU table
+merged = otu_df.merge(tax_df[["OTU_ID", "Genus"]], left_index=True, right_on="OTU_ID")
+melted = merged.drop("OTU_ID", axis=1).melt(id_vars="Genus", var_name="Sample", value_name="Abundance")
+
+# Summarize top 8 genera, lump rest as 'Other'
+top_genera = melted.groupby("Genus")["Abundance"].sum().nlargest(8).index
+melted["Genus"] = melted["Genus"].where(melted["Genus"].isin(top_genera), "Other")
+
+# Normalize per sample
+melted = melted.groupby(["Sample", "Genus"])["Abundance"].sum().reset_index()
+melted["RelativeAbundance"] = melted.groupby("Sample")["Abundance"].transform(lambda x: x / x.sum())
+
+# Plot
+plt.figure(figsize=(12, 5))
+sns.barplot(data=melted, x="Sample", y="RelativeAbundance", hue="Genus")
+plt.title("Stacked Barplot of Top Genera Across Samples")
+plt.ylabel("Relative Abundance")
+plt.xticks(rotation=45)
+plt.legend(bbox_to_anchor=(1.05, 1), loc="upper left")
+plt.tight_layout()
+plt.show()
+```
+
+## R Code
+```{r}
+library(tidyverse)
+
+# Load OTU and taxonomy tables
+otu_df <- read.delim("data/otu_table_filtered.tsv", row.names = 1)
+tax_df <- read.delim("data/otu_taxonomy.tsv")
+
+# Merge by rownames (OTUs)
+otu_df$OTU_ID <- rownames(otu_df)
+merged_df <- left_join(otu_df, tax_df, by = "OTU_ID")
+
+# Convert to long format and summarize
+long_df <- merged_df %>%
+  pivot_longer(cols = starts_with("Sample"), names_to = "Sample", values_to = "Abundance") %>%
+  group_by(Sample, Genus) %>%
+  summarise(Abundance = sum(Abundance), .groups = "drop") %>%
+  group_by(Sample) %>%
+  mutate(RelativeAbundance = Abundance / sum(Abundance))
+
+# Keep top 8 genera
+top_genera <- long_df %>%
+  group_by(Genus) %>%
+  summarise(Total = sum(RelativeAbundance), .groups = "drop") %>%
+  top_n(8, Total) %>%
+  pull(Genus)
+
+long_df <- long_df %>%
+  mutate(Genus = if_else(Genus %in% top_genera, Genus, "Other"))
+
+# Plot
+ggplot(long_df, aes(x = Sample, y = RelativeAbundance, fill = Genus)) +
+  geom_col() +
+  theme_minimal(base_size = 13) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Stacked Barplot of Top Genera Across Samples", y = "Relative Abundance")
+```
+
+# How do I visualize alpha diversity (richness) across groups?
+
+## Explanation
+
+Alpha diversity measures **within-sample diversity** — often captured by the number of observed OTUs or ASVs (richness).
+
+Visualizing alpha diversity across experimental groups (e.g., Control vs Treatment) helps detect differences in microbial complexity. Boxplots are commonly used for this purpose.
+
+To generate the plot, we:
+- Sum OTUs per sample
+- Merge with metadata
+- Group by condition (e.g., Treatment group)
+
+## Python Code
+```python
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load OTU table and metadata
+otu_df = pd.read_csv("data/otu_table_filtered.tsv", sep="\t", index_col=0)
+meta_df = pd.read_csv("data/sample_metadata.tsv", sep="\t")
+
+# Compute richness
+richness = pd.DataFrame({
+    "sample_id": otu_df.columns,
+    "richness": (otu_df > 0).sum(axis=0).values
+})
+
+# Merge with metadata
+merged = pd.merge(richness, meta_df, on="sample_id")
+
+# Plot
+plt.figure(figsize=(8, 5))
+sns.boxplot(data=merged, x="group", y="richness", palette="Set2")
+sns.stripplot(data=merged, x="group", y="richness", color='black', alpha=0.5)
+plt.title("Alpha Diversity (Richness) by Group")
+plt.ylabel("Observed OTUs")
+plt.xlabel("Group")
+plt.tight_layout()
+plt.show()
+```
+
+## R Code
+```{r}
+library(tidyverse)
+
+otu_df <- read.delim("data/otu_table_filtered.tsv", row.names = 1)
+meta_df <- read.delim("data/sample_metadata.tsv")
+
+# Compute richness
+richness <- colSums(otu_df > 0)
+richness_df <- data.frame(sample_id = names(richness), richness = richness)
+
+# Merge with metadata
+merged <- left_join(richness_df, meta_df, by = "sample_id")
+
+# Plot
+ggplot(merged, aes(x = group, y = richness)) +
+  geom_boxplot(fill = "#00BFC4", alpha = 0.7) +
+  geom_jitter(width = 0.1, color = "black", alpha = 0.6) +
+  theme_minimal(base_size = 13) +
+  labs(title = "Alpha Diversity (Richness) by Group", y = "Observed OTUs", x = "Group")
+```
+
+# How do I perform ordination (e.g., PCA) to visualize sample clustering?
+
+## Explanation
+
+Ordination techniques like **PCA**, **NMDS**, or **PCoA** help reduce the complexity of high-dimensional OTU tables, making it easier to visualize **sample relationships**.
+
+These methods project samples into 2D or 3D based on similarity in microbial composition. Samples that cluster together share similar community profiles.
+
+In this example, we'll perform PCA on centered log-ratio (CLR) transformed data — a common preprocessing step in microbiome compositional analysis.
+
+## Python Code
+```python
+import pandas as pd
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load OTU and metadata
+otu_df = pd.read_csv("data/otu_table_filtered.tsv", sep="\t", index_col=0).T
+meta_df = pd.read_csv("data/sample_metadata.tsv", sep="\t")
+
+# Replace 0s with pseudocount for log transformation
+otu_df += 1
+otu_log = np.log(otu_df)
+
+# Standardize (optional)
+otu_scaled = StandardScaler().fit_transform(otu_log)
+
+# PCA
+pca = PCA(n_components=2)
+pca_result = pca.fit_transform(otu_scaled)
+pca_df = pd.DataFrame(pca_result, columns=["PC1", "PC2"])
+pca_df["sample_id"] = otu_df.index
+
+# Merge with metadata
+pca_df = pd.merge(pca_df, meta_df, on="sample_id")
+
+# Plot
+plt.figure(figsize=(8, 6))
+sns.scatterplot(data=pca_df, x="PC1", y="PC2", hue="group", style="location", s=100)
+plt.title("PCA of Microbiome Samples")
+plt.xlabel(f"PC1 ({pca.explained_variance_ratio_[0]:.2%})")
+plt.ylabel(f"PC2 ({pca.explained_variance_ratio_[1]:.2%})")
+plt.tight_layout()
+plt.show()
+```
+
+## R Code
+```{r}
+library(tidyverse)
+library(vegan)
+
+otu_df <- read.delim("data/otu_table_filtered.tsv", row.names = 1)
+meta_df <- read.delim("data/sample_metadata.tsv")
+
+# CLR transformation (log + pseudocount)
+otu_clr <- log(otu_df + 1)
+otu_scaled <- scale(t(otu_clr))  # samples as rows
+
+# PCA
+pca_res <- prcomp(otu_scaled, center = TRUE, scale. = TRUE)
+pca_df <- as.data.frame(pca_res$x[, 1:2])
+pca_df$sample_id <- rownames(pca_df)
+
+# Merge
+merged <- left_join(pca_df, meta_df, by = "sample_id")
+
+# Plot
+ggplot(merged, aes(x = PC1, y = PC2, color = group, shape = location)) +
+  geom_point(size = 3, alpha = 0.8) +
+  theme_minimal(base_size = 13) +
+  labs(title = "PCA of Microbiome Samples", x = "PC1", y = "PC2")
+```
+
+# How do I visualize OTU or Genus abundance using a heatmap?
+
+## Explanation
+
+Heatmaps are excellent for visualizing microbial abundance patterns across samples. They help identify:
+- Co-occurring OTUs or genera
+- Sample clusters with similar profiles
+- High- or low-abundance taxa patterns
+
+Heatmaps often include clustering on rows (features) and columns (samples), with scaling or log-transformation to improve interpretability.
+
+In this example, we visualize the **top 20 most abundant OTUs** across all samples.
+
+## Python Code
+```python
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load OTU table
+otu_df = pd.read_csv("data/otu_table_filtered.tsv", sep="\t", index_col=0)
+
+# Select top 20 OTUs by total abundance
+top_otus = otu_df.sum(axis=1).nlargest(20).index
+top_otu_df = otu_df.loc[top_otus]
+
+# Normalize (relative abundance per sample)
+rel_abund = top_otu_df.div(top_otu_df.sum(axis=0), axis=1)
+
+# Plot heatmap
+plt.figure(figsize=(10, 8))
+sns.heatmap(rel_abund, cmap="YlGnBu", linewidths=0.5)
+plt.title("Heatmap of Top 20 OTUs (Relative Abundance)")
+plt.xlabel("Samples")
+plt.ylabel("OTUs")
+plt.tight_layout()
+plt.show()
+```
+
+## R Code
+```{r}
+library(tidyverse)
+library(pheatmap)
+
+otu_df <- read.delim("data/otu_table_filtered.tsv", row.names = 1)
+
+# Select top 20 OTUs by abundance
+top_otus <- rowSums(otu_df) %>%
+  sort(decreasing = TRUE) %>%
+  head(20) %>%
+  names()
+
+top_otu_df <- otu_df[top_otus, ]
+
+# Convert to relative abundance
+rel_abund <- sweep(top_otu_df, 2, colSums(top_otu_df), FUN = "/")
+
+# Plot heatmap
+pheatmap(rel_abund,
+         color = colorRampPalette(c("white", "#0073C2FF"))(100),
+         fontsize = 11,
+         main = "Heatmap of Top 20 OTUs (Relative Abundance)")
+```

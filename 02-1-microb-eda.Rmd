@@ -1,0 +1,258 @@
+# (PART) MICROBIOME DATA EDA {-}
+
+# What are the essential tools for microbiome read quality control?
+
+## Explanation
+
+Every microbiome analysis begins with raw sequencing data, often in the form of FASTQ files. These files contain both the nucleotide reads and quality scores. However, raw reads are rarely perfect — they may contain adapter sequences, low-quality regions, or even contaminant DNA.
+
+Before proceeding to any taxonomic or functional profiling, it's essential to clean and assess these reads. This is the foundation of your analysis pipeline — ensuring that only high-quality data moves forward.
+
+Several tools have been developed for this exact purpose. Most are installable via **Bioconda**, and they can be used independently or as part of an automated pipeline.
+
+Here’s a breakdown of what each tool does:
+
+- **Seqkit**: Provides basic statistics about your FASTQ files (e.g., length distribution, GC content).
+- **FastQC**: Generates per-base quality score plots to detect poor-quality cycles.
+- **MultiQC**: Aggregates FastQC outputs across samples into a single report.
+- **BBMap / Trimmomatic**: Trim adapters, remove artifacts, and perform quality filtering.
+- **Kneaddata**: Specialized for metagenomics, it removes contaminant reads (e.g., host DNA) using alignment-based filtering.
+
+## Shell Code
+```bash
+# Install individual tools using mamba and bioconda
+mamba install -c bioconda seqkit fastqc multiqc bbmap trimmomatic
+# Install kneaddata from Biobakery channel (for metagenomics)
+mamba install -c biobakery kneaddata
+``` 
+
+## R Note
+```{r}
+# These tools are primarily used from the command line, but their output files
+# (e.g., FastQC or MultiQC reports) can be imported into R for downstream summarization.
+```
+
+# How do I obtain example microbiome sequencing data for analysis?
+
+## Explanation
+
+Before performing any analysis, you need access to microbiome sequencing data. This data typically comes in the form of **FASTQ** files (either single-end or paired-end), which contain raw reads from amplicon sequencing.
+
+There are several sources for publicly available datasets:
+- **QIIME2 Tutorials**: Include curated sample data for testing pipelines
+- **NCBI SRA / EBI ENA**: Provide raw sequencing data from published studies
+- **Qiita**: A microbiome database for submitting and reusing 16S/18S/ITS data
+- **Mock communities**: Simulated or synthetic datasets used to benchmark tools
+
+This example uses the classic *Moving Pictures* tutorial dataset from QIIME2.
+
+## Shell Code
+```bash
+# Download paired-end FASTQ data from QIIME2 tutorial
+wget https://data.qiime2.org/2024.2/tutorials/moving-pictures/emp-paired-end-sequences/barcodes.fastq.gz
+wget https://data.qiime2.org/2024.2/tutorials/moving-pictures/emp-paired-end-sequences/forward.fastq.gz
+wget https://data.qiime2.org/2024.2/tutorials/moving-pictures/emp-paired-end-sequences/reverse.fastq.gz
+```  
+
+## Python Note
+```python
+# Although QIIME2 is Python-based, raw sequencing data is usually downloaded externally.
+# Python/QIIME2 will be used later to import and process these FASTQ files.
+```  
+
+## R Note
+```{r}
+# Most raw sequencing workflows do not begin in R. However, after generating feature tables
+# from tools like QIIME2 or mothur, R will be used for downstream analysis and visualization.
+```  
+
+# How do I process raw sequencing data into a feature table using QIIME2?
+
+## Explanation
+
+After obtaining your raw FASTQ data, the first analytical step is transforming it into a structured format for analysis — the **feature table**. This is a matrix of counts (samples × ASVs or OTUs).
+
+QIIME2 is a powerful, Python-based platform for this entire workflow. It uses `.qza` files (QIIME artifacts) to structure data at each step and generates a `.qzv` summary for inspection.
+
+This pipeline includes:
+- Importing FASTQ data
+- Demultiplexing reads
+- Denoising to generate ASVs using `DADA2` or `Deblur`
+- Creating a feature table
+
+## Shell Code (QIIME2 CLI)
+```bash
+# 1. Import paired-end reads
+qiime tools import \
+  --type EMPPairedEndSequences \
+  --input-path emp-paired-end-sequences \
+  --output-path emp-paired-end-sequences.qza
+
+# 2. Demultiplex (barcode + sample mapping required)
+qiime demux emp-paired \
+  --i-seqs emp-paired-end-sequences.qza \
+  --m-barcodes-file sample-metadata.tsv \
+  --m-barcodes-column BarcodeSequence \
+  --o-per-sample-sequences demux.qza \
+  --o-error-correction-details demux-details.qza
+
+# 3. Visualize quality
+qiime demux summarize \
+  --i-data demux.qza \
+  --o-visualization demux.qzv
+
+# 4. Denoise with DADA2
+qiime dada2 denoise-paired \
+  --i-demultiplexed-seqs demux.qza \
+  --p-trim-left-f 0 \
+  --p-trim-left-r 0 \
+  --p-trunc-len-f 240 \
+  --p-trunc-len-r 200 \
+  --o-table table.qza \
+  --o-representative-sequences rep-seqs.qza \
+  --o-denoising-stats denoising-stats.qza
+```  
+
+## Python Note
+```python
+# Although QIIME2 is Python-based, its workflow is run via CLI.
+# Feature table (table.qza) can be exported and summarized later using Python or R.
+``` 
+
+# How do I process raw sequencing data into a feature table using Mothur?
+
+## Explanation
+
+Mothur is an open-source software package for analyzing 16S rRNA gene sequences. It supports raw data preprocessing, OTU clustering, and taxonomic assignment. Its workflow is particularly popular for microbial community studies and works well with single- or paired-end FASTQ data.
+
+Mothur pipelines are usually run using command files or interactively within the Mothur console. Key steps include:
+- Merging paired-end reads
+- Quality filtering
+- Aligning and clustering reads into OTUs
+- Generating `.shared` (feature table) and `.taxonomy` files
+
+## Shell Code
+```bash
+# Launch Mothur
+mothur
+
+# Inside Mothur console (example workflow)
+mothur > make.file(inputdir=./raw_data, type=fastq, prefix=stability)
+mothur > make.contigs(file=stability.files, processors=8)
+mothur > screen.seqs(fasta=stability.trim.contigs.fasta, group=stability.contigs.groups, maxambig=0, maxlength=275)
+mothur > unique.seqs(fasta=stability.trim.contigs.good.fasta)
+mothur > count.seqs(name=stability.trim.contigs.good.names, group=stability.contigs.good.groups)
+mothur > align.seqs(fasta=stability.trim.contigs.good.unique.fasta, reference=silva.seed_v138.align)
+mothur > screen.seqs(...)
+mothur > pre.cluster(...)
+mothur > chimera.vsearch(...)
+mothur > remove.seqs(...)
+mothur > cluster.split(...)
+mothur > make.shared(...)
+mothur > classify.otu(...)
+```
+
+## R Note
+```{r}
+# Mothur outputs a `.shared` file (feature/OTU table) and `.taxonomy` file.
+# These can be imported into R using packages like phyloseq or tidyverse for analysis.
+```
+
+## Python Note
+```python
+# Mothur is not Python-based, but output files can be parsed with pandas or biom-format readers.
+```
+
+# How do I explore and summarize a microbiome OTU table?
+
+## Explanation
+
+After generating an OTU (or feature) table from raw sequencing data, it’s essential to inspect and summarize it before moving into alpha or beta diversity analysis.
+
+The OTU table is typically a matrix of **samples × features** (ASVs/OTUs), where each cell contains the abundance count of a feature in a sample.
+
+Key summary steps include:
+- Calculating **sample richness** (how many OTUs each sample contains)
+- Measuring **OTU prevalence** (in how many samples each OTU occurs)
+- Assessing **abundance distribution** (e.g., sparse vs dominant OTUs)
+- Identifying **sparse or noisy features** that may need filtering
+
+## Python Code
+```python
+import pandas as pd
+
+# Load OTU table (OTUs as rows, samples as columns)
+otu_df = pd.read_csv("data/otu_table.tsv", sep="\t", index_col=0)
+
+# Number of OTUs per sample (richness)
+sample_richness = (otu_df > 0).sum(axis=0)
+
+# Number of samples per OTU (prevalence)
+otu_prevalence = (otu_df > 0).sum(axis=1)
+
+# Distribution of total counts per OTU
+otu_abundance_summary = otu_df.sum(axis=1).describe()
+
+print("Sample Richness:", sample_richness.head())
+print("OTU Prevalence:", otu_prevalence.head())
+print("Abundance Summary:", otu_abundance_summary)
+```
+
+## R Code
+```{r}
+otu_df <- read.delim("data/otu_table.tsv", row.names = 1)
+
+# Sample richness: number of OTUs per sample
+colSums(otu_df > 0)
+
+# OTU prevalence: number of samples each OTU appears in
+rowSums(otu_df > 0)
+
+# Distribution of total counts per OTU
+summary(rowSums(otu_df))
+```
+
+# How do I filter out low-abundance or low-prevalence OTUs?
+
+## Explanation
+
+OTU tables are often sparse, with many OTUs occurring in only a few samples or at very low abundances. These low-abundance and low-prevalence OTUs can introduce noise, inflate diversity metrics, and complicate downstream analysis.
+
+Filtering such OTUs is a critical EDA step before diversity analysis or visualization. Common criteria include:
+- **Prevalence**: Removing OTUs that appear in fewer than X samples
+- **Abundance**: Removing OTUs with total counts below a threshold
+
+This step helps reduce dimensionality and improves interpretability.
+
+## Python Code
+```python
+import pandas as pd
+
+# Load OTU table
+otu_df = pd.read_csv("data/otu_table.tsv", sep="\t", index_col=0)
+
+# Filter: keep OTUs present in at least 3 samples
+otu_filtered = otu_df[(otu_df > 0).sum(axis=1) >= 3]
+
+# Further filter: keep OTUs with total count ≥ 10
+otu_filtered = otu_filtered[otu_filtered.sum(axis=1) >= 10]
+
+# Save filtered table
+otu_filtered.to_csv("data/otu_table_filtered.tsv", sep="\t")
+```
+
+## R Code
+```{r}
+otu_df <- read.delim("data/otu_table.tsv", row.names = 1)
+
+# Filter OTUs with prevalence ≥ 3 samples
+keep_rows <- rowSums(otu_df > 0) >= 3
+otu_df <- otu_df[keep_rows, ]
+
+# Further filter by total abundance ≥ 10
+keep_abundant <- rowSums(otu_df) >= 10
+otu_df_filtered <- otu_df[keep_abundant, ]
+
+# Write filtered table
+write.table(otu_df_filtered, file = "data/otu_table_filtered.tsv", sep = "\t")
+```

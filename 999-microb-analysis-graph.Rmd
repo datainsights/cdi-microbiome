@@ -1,0 +1,24 @@
+# Modelframework
+```{r}
+library(DiagrammeR)
+library(DiagrammeRsvg)
+
+mermaid("graph TD
+subgraph A
+A[Data Preprocessing: Cleaning and Transformation] --> B[Exploratory Analysis]
+B --> C[Features selection]
+C --> D[Feature Balancing]
+D --> |Multi-Model Testing| E[Model Selection]
+E --> F[Parameters Tuning]
+F --> G[Parameter cross Validation]
+end 
+
+subgraph B
+
+G--> QC{Model Evaluation}
+QC --> H1[ROC: Receiver Operating <br> Characteristic Curve]
+QC --> H2[Precision Recall Curve]
+end
+", height = 1000, width = 800)
+
+```

@@ -1,0 +1,66 @@
+# RStudio project files
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# macOS system files
+.DS_Store
+
+# renv package management
+renv/library/
+renv/staging/
+renv/python/
+
+# Bookdown output folders
+!docs/                # GitBook HTML (only if built elsewhere or published separately)
+!pdf/                 # PDF version (ignore if selling or privately hosting)
+data/
+
+# Common temporary and cache files
+*.utf8.md            # Intermediate markdown
+*.knit.md            # Knitted markdown
+*.log
+*.aux
+*.out
+*.toc
+*.synctex.gz
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+
+# Quarto and Pandoc cache (if ever used)
+_quarto/
+_cache/
+
+# RStudio & OS junk
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+.DS_Store
+
+# renv cache
+renv/library/
+renv/staging/
+renv/python/
+
+# Intermediate files
+*.utf8.md
+*.knit.md
+
+# PDF output folders
+inter-pdf/
+adv-pdf/
+
+# GitBook folders (not deployed)
+inter-gitbook/
+adv-gitbook/
+
+# Temporary working file
+index.Rmd
+_bookdown.yml
+
+*_files/figure-html/
+*_files/figure-latex/

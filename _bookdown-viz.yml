@@ -1,0 +1,12 @@
+book_filename: "microbiome-viz"
+before_chapter_script: ["_setup.R"]
+delete_merged_file: yes
+
+language:
+  ui:
+    chapter_name: "Q&A "
+
+rmd_files:
+  - index.Rmd
+  - 02-1-microb-eda.Rmd
+  - 02-2-microb-viz.Rmd
