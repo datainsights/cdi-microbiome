@@ -21,17 +21,30 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y \
+            libfreetype6-dev \
+            libfontconfig1-dev \
+            libharfbuzz-dev \
+            libfribidi-dev \
             libcurl4-openssl-dev \
             libssl-dev \
             libxml2-dev \
-            libfontconfig1-dev \
-            libfreetype6-dev
+            libpng-dev \
+            libtiff5-dev \
+            libnetcdf-dev
+
+      - name: 📦 Restore R package cache
+        uses: actions/cache@v3
+        with:
+          path: renv/library
+          key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-renv-
 
       - name: 📦 Restore R environment
         run: |
           Rscript -e 'install.packages("renv", repos = "https://cloud.r-project.org")'
           Rscript -e 'renv::restore()'
-          Rscript -e 'install.packages("bookdown", repos = "https://cloud.r-project.org")'
+          Rscript -e 'if (!requireNamespace("bookdown", quietly = TRUE)) install.packages("bookdown")'
 
       - name: 📖 Render Bookdown site
         run: |
