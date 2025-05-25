@@ -46,6 +46,11 @@ jobs:
           Rscript -e 'renv::restore()'
           Rscript -e 'if (!requireNamespace("bookdown", quietly = TRUE)) install.packages("bookdown")'
 
+      - name: 🧩 Use EDA GitBook layout
+        run: |
+          cp index-eda-gitbook.Rmd index.Rmd
+          cp _bookdown-eda.yml _bookdown.yml
+
       - name: 📖 Render Bookdown site
         run: |
           Rscript -e 'bookdown::render_book("index.Rmd", output_dir = "docs")'
