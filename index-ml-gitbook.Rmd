@@ -3,8 +3,8 @@ title: |
   | Microbiome Machine Learning
 subtitle: |
   | ![](images/microbiome.png){width=75%}
-  | 🔗 **Live site:** [https://microbiome.complexdatainsights.com](https://microbiome.complexdatainsights.com)
-  | 🗓️ Last updated: `r format(Sys.Date(), "%B %d, %Y")` 
+  | **Live site:** [https://microbiome.complexdatainsights.com](https://microbiome.complexdatainsights.com)
+  | Last updated: `r format(Sys.Date(), "%B %d, %Y")` 
 knit: bookdown::render_book
 site: bookdown::bookdown_site
 documentclass: book
@@ -33,7 +33,7 @@ spacing: double
 pandoc_args: ["--variable=linestretch:2"]
 description:
 github-repo: "https://github.com/cdi-microbiome/"
-favicon: "favicon.ico""
+favicon: "favicon.ico"
 ---
 
 #  {-}

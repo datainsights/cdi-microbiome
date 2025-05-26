@@ -16,7 +16,7 @@ renv/python/
 !docs/                # GitBook HTML (only if built elsewhere or published separately)
 !pdf/                 # PDF version (ignore if selling or privately hosting)
 data/
-images/
+!images/microbiome.png # Cover images
 
 # Common temporary and cache files
 *.utf8.md            # Intermediate markdown
