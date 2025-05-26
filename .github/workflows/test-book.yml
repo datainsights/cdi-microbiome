@@ -31,6 +31,9 @@ jobs:
             libtiff5-dev \
             libnetcdf-dev
 
+      - name: 🔑 Set GitHub token for renv
+        run: echo "GITHUB_PAT=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
+
       - name: 📦 Restore R package cache
         uses: actions/cache@v3
         with:
