@@ -51,12 +51,16 @@ renv/python/
 *.knit.md
 
 # PDF output folders
-inter-pdf/
-adv-pdf/
+viz-pdf/
+stats-pdf/
+ml-pdf/
 
 # GitBook folders (not deployed)
-inter-gitbook/
-adv-gitbook/
+viz-gitbook/
+stats-gitbook/
+ml-gitbook/
+
+
 
 # Temporary working file
 index.Rmd

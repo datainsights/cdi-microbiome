@@ -127,4 +127,5 @@ rm -f ./*.rds
 echo "✅ Cleanup complete."
 
 # Remove symlink to avoid accidental reuse
+rm -f index.Rmd
 rm -f _bookdown.yml
