@@ -51,11 +51,11 @@ jobs:
       - name: 🛠 Install Pandoc
         uses: r-lib/actions/setup-pandoc@v2
 
-      - name: 🧩 Use EDA GitBook layout
-        run: |
-          cp index-eda-gitbook.Rmd index.Rmd
-          cp _bookdown-eda.yml _bookdown.yml
+      # - name: 🧩 Use EDA GitBook layout
+      #   run: |
+      #     cp index-eda-gitbook.Rmd index.Rmd
+      #     cp _bookdown-eda.yml _bookdown.yml
 
-      - name: 📖 Render Bookdown site
-        run: |
-          Rscript -e 'bookdown::render_book("index.Rmd", output_dir = "docs")'
+      # - name: 📖 Render Bookdown site
+      #   run: |
+      #     Rscript -e 'bookdown::render_book("index.Rmd", output_dir = "docs")'
