@@ -1,6 +1,11 @@
 # 🦠 CDI Microbiome
 
-Modular, reproducible analysis framework for microbiome data using **Bookdown**, **renv**, and **GitHub Actions**.
+[![Live Site](https://img.shields.io/badge/visit-site-blue?logo=githubpages)](https://microbiome.complexdatainsights.com)
+
+📘 **Live guide:** [microbiome.complexdatainsights.com](https://microbiome.complexdatainsights.com)
+
+Modular, reproducible analysis framework for microbiome data using  
+**Bookdown**, **renv**, and **GitHub Actions** — published via custom subdomain and GitHub Pages.
 
 ---
 
@@ -77,3 +82,4 @@ cdi-microbiome/
 ## 🔐 License
 
 Distributed under an [open license](https://complexdatainsights.com/licenses/licensing.html) by Complex Data Insights.
+
