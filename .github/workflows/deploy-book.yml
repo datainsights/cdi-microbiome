@@ -45,6 +45,9 @@ jobs:
           Rscript -e 'install.packages("renv", repos = "https://cloud.r-project.org")'
           Rscript -e 'renv::restore()'
           Rscript -e 'if (!requireNamespace("bookdown", quietly = TRUE)) install.packages("bookdown")'
+          
+      - name: 🛠 Install Pandoc
+        uses: r-lib/actions/setup-pandoc@v2
 
       - name: 🧩 Use EDA GitBook layout
         run: |
