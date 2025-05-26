@@ -76,4 +76,4 @@ cdi-microbiome/
 
 ## 🔐 License
 
-MIT © [Complex Data Insights](https://complexdatainsights.com)
+Distributed under an [open license](https://complexdatainsights.com/licenses/licensing.html) by Complex Data Insights.
