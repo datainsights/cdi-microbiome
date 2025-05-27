@@ -8,7 +8,7 @@ levels=("eda-gitbook" "viz-gitbook" "viz-pdf" "stats-gitbook" "stats-pdf" "ml-gi
 for level in "${levels[@]}"; do
   echo ""
   echo "🔁 Building: $level"
-  bash ./build-configurable.sh "$level"
+  bash ./scripts/build-configurable.sh "$level"
 done
 
 echo ""

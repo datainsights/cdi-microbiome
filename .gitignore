@@ -11,7 +11,8 @@
 renv/library/
 renv/staging/
 renv/python/
-
+pyenv/
+renv/
 # Bookdown output folders
 !docs/                # GitBook HTML (only if built elsewhere or published separately)
 !pdf/                 # PDF version (ignore if selling or privately hosting)

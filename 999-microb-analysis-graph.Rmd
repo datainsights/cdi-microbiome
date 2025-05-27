@@ -1,24 +1,33 @@
-# Modelframework
-```{r}
+# Microbiome Data Analysis Workflow
+```{r echo=FALSE}
 library(DiagrammeR)
 library(DiagrammeRsvg)
+library(xml2)
+library(rsvg)  # Needed to convert SVG to PNG
+
 
 mermaid("graph TD
-subgraph A
-A[Data Preprocessing: Cleaning and Transformation] --> B[Exploratory Analysis]
-B --> C[Features selection]
-C --> D[Feature Balancing]
-D --> |Multi-Model Testing| E[Model Selection]
-E --> F[Parameters Tuning]
-F --> G[Parameter cross Validation]
+
+subgraph Exploratory Data Analysis
+
+A[Raw FASTQ Files] --> B[Quality Control & Trimming]
+B --> C[Sequence Merging & Denoising]
+C --> D[Feature Construction]
+D --> G{Embedded Metadata}
+E[Taxonomy] --> G{Embedded Metadata}
+F[Metadata] --> G{Embedded Metadata}
 end 
 
-subgraph B
+subgraph Analysis Ready Object 
 
-G--> QC{Model Evaluation}
-QC --> H1[ROC: Receiver Operating <br> Characteristic Curve]
-QC --> H2[Precision Recall Curve]
+G --> H1[Alpha Diversity Plots]
+G --> H2[Beta Diversity Plots]
+G --> H3[Differential Abundance]
+G --> H4[Statistical Analysis]
+G --> H5[Machine Learning]
 end
+
 ", height = 1000, width = 800)
 
 ```
+

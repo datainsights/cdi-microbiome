@@ -1,15 +1,14 @@
 #!/bin/bash
-
-set -e  # ⛔ Exit the script immediately if any command fails
-
+set -e
 # 🧠 Check if CDI_DOMAIN is not set in the environment
 if [ -z "$CDI_DOMAIN" ]; then  # -z checks if variable is undefined or empty
   # 📝 Prompt the user to enter the domain manually (interactive fallback)
   read -p "Enter domain (e.g., rnaseq, microbiome): " CDI_DOMAIN
 fi
 
-# 🖨️ Inform the user what’s happening
-echo "📦 Setting up R environment for CDI domain: ${CDI_DOMAIN}"
+# Set the domain explicitly (update if needed)
+export CDI_DOMAIN=microbiome
 
-# 🚀 Run the R installation script, which reads from CDI_DOMAIN inside
-Rscript cdi-install-packages.R
+echo "🔁 Starting R package installation..."
+Rscript scripts/cdi-install-packages.R
+echo "✅ R package installation complete."

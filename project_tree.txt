@@ -1,50 +1,20 @@
 Project Tree for cdi-microbiome
-Generated on Sun May 25 00:24:13 EAT 2025
+Generated on Tue May 27 23:26:21 EAT 2025
 
 cdi-microbiome
+├── _2output.yml
 ├── _bookdown_files
-│   └── microbiome-ml_files
-│       └── figure-html
 ├── _bookdown-eda.yml
 ├── _bookdown-ml.yml
 ├── _bookdown-stats.yml
 ├── _bookdown-viz.yml
-├── _bookdown.yml
 ├── _output.yml
-├── _setup.R
-├── .DS_Store
-├── .github
-│   └── workflows
-│       └── deploy.yml
-├── .gitignore
-├── .Rhistory
-├── .Rproj.user
-│   ├── 7C6B0E38
-│   │   ├── bibliography-index
-│   │   ├── bookdown-crossref
-│   │   ├── ctx
-│   │   ├── explorer-cache
-│   │   ├── jobs
-│   │   ├── pcs
-│   │   ├── presentation
-│   │   ├── profiles-cache
-│   │   ├── rmd-outputs
-│   │   ├── saved_source_markers
-│   │   ├── sources
-│   │   ├── tutorial
-│   │   └── viewer-cache
-│   └── shared
-│       └── notebooks
 ├── 02-1-microb-eda.Rmd
 ├── 02-2-microb-viz.Rmd
 ├── 02-3-microb-stats.Rmd
 ├── 02-4-microb-ml.Rmd
 ├── 99-appendix.Rmd
 ├── 999-microb-analysis-graph.Rmd
-├── Archive.zip
-├── build-all.sh
-├── build-configurable.sh
-├── cdi-install-packages.R
 ├── cdi-microbiome.Rproj
 ├── CONTRIBUTING.md
 ├── data
@@ -54,31 +24,8 @@ cdi-microbiome
 │   ├── otu_taxonomy.tsv
 │   ├── sample_metadata.tsv
 │   └── tidy_brcancer_data.rds
-├── docs
-│   ├── 404.html
-│   ├── about-this-guide.html
-│   ├── how-do-i-explore-and-summarize-a-microbiome-otu-table.html
-│   ├── how-do-i-filter-out-low-abundance-or-low-prevalence-otus.html
-│   ├── how-do-i-obtain-example-microbiome-sequencing-data-for-analysis.html
-│   ├── how-do-i-process-raw-sequencing-data-into-a-feature-table-using-mothur.html
-│   ├── how-do-i-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html
-│   ├── images
-│   │   └── eda.png
-│   ├── index.html
-│   ├── libs
-│   │   ├── anchor-sections-1.1.0
-│   │   ├── gitbook-2.6.7
-│   │   └── jquery-3.6.0
-│   ├── reference-keys.txt
-│   ├── search_index.json
-│   ├── section-1.html
-│   ├── style.css
-│   └── what-are-the-essential-tools-for-microbiome-read-quality-control.html
 ├── images
-│   ├── bus.png
-│   ├── ds.png
-│   ├── eda.png
-│   └── stats.png
+│   └── microbiome.png
 ├── index-eda-gitbook.Rmd
 ├── index-ml-gitbook.Rmd
 ├── index-ml-pdf.Rmd
@@ -86,7 +33,6 @@ cdi-microbiome
 ├── index-stats-pdf.Rmd
 ├── index-viz-gitbook.Rmd
 ├── index-viz-pdf.Rmd
-├── index.Rmd
 ├── library
 │   ├── apa.csl
 │   ├── book.bib
@@ -94,90 +40,51 @@ cdi-microbiome
 │   ├── references.bib
 │   └── resources.md
 ├── LICENSE
-├── microbiome-ml.Rmd
-├── ml-gitbook
-│   ├── 404.html
-│   ├── about-this-guide.html
-│   ├── images
-│   │   └── eda.png
-│   ├── index.html
-│   ├── libs
-│   │   ├── anchor-sections-1.1.0
-│   │   ├── gitbook-2.6.7
-│   │   └── jquery-3.6.0
-│   ├── search_index.json
-│   ├── section-1.html
-│   └── style.css
-├── ml-pdf
-│   └── microbiome-ml.pdf
 ├── preamble.tex
 ├── project_tree.txt
+├── pyenv
+│   ├── bin
+│   │   ├── activate
+│   │   ├── activate.csh
+│   │   ├── activate.fish
+│   │   ├── Activate.ps1
+│   │   ├── f2py
+│   │   ├── fonttools
+│   │   ├── numpy-config
+│   │   ├── pip
+│   │   ├── pip3
+│   │   ├── pip3.12
+│   │   ├── pyftmerge
+│   │   ├── pyftsubset
+│   │   ├── python -> python3.12
+│   │   ├── python3 -> python3.12
+│   │   ├── python3.12 -> /Library/Frameworks/Python.framework/Versions/3.12/bin/python3.12
+│   │   └── ttx
+│   ├── include
+│   │   └── python3.12
+│   ├── lib
+│   │   └── python3.12
+│   ├── pyvenv.cfg
+│   └── share
+│       └── man
 ├── README.md
+├── renv
+│   ├── activate.R
+│   ├── library
+│   │   └── macos
+│   └── staging
 ├── renv.lock
 ├── requirements.txt
-├── stats-gitbook
-│   ├── 404.html
-│   ├── about-this-guide.html
-│   ├── how-do-i-compare-alpha-diversity-across-3-or-more-groups.html
-│   ├── how-do-i-create-a-stacked-bar-plot-of-top-genera-across-samples.html
-│   ├── how-do-i-explore-and-summarize-a-microbiome-otu-table.html
-│   ├── how-do-i-filter-out-low-abundance-or-low-prevalence-otus.html
-│   ├── how-do-i-obtain-example-microbiome-sequencing-data-for-analysis.html
-│   ├── how-do-i-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html
-│   ├── how-do-i-process-raw-sequencing-data-into-a-feature-table-using-mothur.html
-│   ├── how-do-i-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html
-│   ├── how-do-i-statistically-compare-otu-richness-between-groups.html
-│   ├── how-do-i-test-for-correlation-between-alpha-diversity-and-age.html
-│   ├── how-do-i-test-for-differences-in-community-composition-using-permanova.html
-│   ├── how-do-i-test-for-differential-abundance-of-otus-across-groups.html
-│   ├── how-do-i-visualize-alpha-diversity-richness-across-groups.html
-│   ├── how-do-i-visualize-otu-or-genus-abundance-using-a-heatmap.html
-│   ├── how-do-i-visualize-total-otu-abundance-per-sample.html
-│   ├── images
-│   │   └── eda.png
-│   ├── index.html
-│   ├── libs
-│   │   ├── anchor-sections-1.1.0
-│   │   ├── gitbook-2.6.7
-│   │   └── jquery-3.6.0
-│   ├── microbiome-stats_files
-│   │   └── figure-html
-│   ├── reference-keys.txt
-│   ├── search_index.json
-│   ├── section-1.html
-│   ├── style.css
-│   └── what-are-the-essential-tools-for-microbiome-read-quality-control.html
-├── stats-pdf
-│   └── microbiome-stats.pdf
-├── style.css
-├── viz-gitbook
-│   ├── 404.html
-│   ├── about-this-guide.html
-│   ├── how-do-i-create-a-stacked-bar-plot-of-top-genera-across-samples.html
-│   ├── how-do-i-explore-and-summarize-a-microbiome-otu-table.html
-│   ├── how-do-i-filter-out-low-abundance-or-low-prevalence-otus.html
-│   ├── how-do-i-obtain-example-microbiome-sequencing-data-for-analysis.html
-│   ├── how-do-i-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html
-│   ├── how-do-i-process-raw-sequencing-data-into-a-feature-table-using-mothur.html
-│   ├── how-do-i-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html
-│   ├── how-do-i-visualize-alpha-diversity-richness-across-groups.html
-│   ├── how-do-i-visualize-otu-or-genus-abundance-using-a-heatmap.html
-│   ├── how-do-i-visualize-total-otu-abundance-per-sample.html
-│   ├── images
-│   │   └── eda.png
-│   ├── index.html
-│   ├── libs
-│   │   ├── anchor-sections-1.1.0
-│   │   ├── gitbook-2.6.7
-│   │   └── jquery-3.6.0
-│   ├── microbiome-viz_files
-│   │   └── figure-html
-│   ├── reference-keys.txt
-│   ├── search_index.json
-│   ├── section-1.html
-│   ├── style.css
-│   └── what-are-the-essential-tools-for-microbiome-read-quality-control.html
-└── viz-pdf
-    └── microbiome-viz.pdf
+├── scripts
+│   ├── _setup.R
+│   ├── build-all.sh
+│   ├── build-configurable.sh
+│   ├── cdi-install-packages.R
+│   ├── common.R
+│   ├── init-and-push.sh
+│   ├── microbiome.R
+│   ├── setup_py_env.sh
+│   └── setup_r_env.sh
+└── style.css
 
-55 directories, 123 files
+18 directories, 67 files

@@ -40,8 +40,11 @@ Rscript -e 'renv::restore()'
 Or, run the automated setup:
 
 ```bash
-chmod +x setup_env.sh
-./setup_env.sh
+chmod +x scripts/setup_r_env.sh
+./scripts/setup_r_env.sh
+
+chmod +x scripts/setup_py_env.sh
+./scripts/setup_py_env.sh
 ```
 
 ---

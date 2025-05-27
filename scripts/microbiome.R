@@ -5,7 +5,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocMana
 library(BiocManager)
 
 # List of CRAN + Bioconductor packages
-micro_pkgs <- c("phyloseq", "vegan", "microbiome", "ggpubr", "pheatmap")
+micro_pkgs <- c("phyloseq", "vegan", "microbiome", "pheatmap")
 
 for (pkg in micro_pkgs) {
   if (!requireNamespace(pkg, quietly = TRUE)) {
