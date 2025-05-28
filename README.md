@@ -31,58 +31,32 @@ Each layer is modular and version-controlled, allowing smooth scale-up across da
 
 ## 🛠️ Environment Setup
 
-Use renv to restore dependencies:
+This project uses both **R** and **Python** for microbiome data analysis.
+
+### 🔄 Option 1: Restore R dependencies directly
 
 ```bash
 Rscript -e 'renv::restore()'
 ```
 
-Or, run the automated setup:
+### ⚙️ Option 2: Run the full environment setup (recommended)
 
 ```bash
+# Make setup scripts executable
 chmod +x scripts/setup_r_env.sh
-./scripts/setup_r_env.sh
-
 chmod +x scripts/setup_py_env.sh
+
+# Run R and Python environment setup
+./scripts/setup_r_env.sh
 ./scripts/setup_py_env.sh
 ```
 
----
+### 📦 Notes
 
-## 🚀 Build & Deploy
-
-To build the Bookdown site manually:
-
-```bash
-cp index-eda-gitbook.Rmd index.Rmd
-cp _bookdown-eda.yml _bookdown.yml
-Rscript -e 'bookdown::render_book("index.Rmd", output_dir = "docs")'
-```
-
-On push to `main`, the `docs/` folder is automatically deployed to GitHub Pages.
+- **R packages** are managed using `renv` and modular installer scripts in `scripts/`.
+- **Python packages** are listed in `requirements.txt` and installed via `venv`.
+- Customize the environment by editing:
+  - `scripts/common.R` and `scripts/microbiome.R` (for R)
+  - `requirements.txt` (for Python)
 
 ---
-
-## 📁 Structure
-
-```bash
-cdi-microbiome/
-├── .github/workflows/
-│   ├── test-book.yml         # Manual build test
-│   └── deploy-book.yml       # Push-to-main deployment
-├── index-eda-gitbook.Rmd     # Entry point for Bookdown
-├── _bookdown-eda.yml         # EDA Bookdown config
-├── cdi-install-packages.R    # Modular installer
-├── common.R                  # Shared packages
-├── microbiome.R              # Domain-specific packages
-├── setup_env.sh              # Local env setup
-├── renv.lock                 # Snapshot of R environment
-└── docs/                     # Rendered book output
-```
-
----
-
-## 🔐 License
-
-Distributed under an [open license](https://complexdatainsights.com/licenses/licensing.html) by Complex Data Insights.
-
