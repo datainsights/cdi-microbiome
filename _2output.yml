@@ -1,3 +1,0 @@
-bookdown::gitbook:
-  includes:
-    in_header: mermaid.html
