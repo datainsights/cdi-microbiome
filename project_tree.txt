@@ -1,9 +1,7 @@
 Project Tree for cdi-microbiome
-Generated on Tue May 27 23:26:21 EAT 2025
+Generated on Wed May 28 08:52:22 EAT 2025
 
 cdi-microbiome
-├── _2output.yml
-├── _bookdown_files
 ├── _bookdown-eda.yml
 ├── _bookdown-ml.yml
 ├── _bookdown-stats.yml
@@ -37,8 +35,7 @@ cdi-microbiome
 │   ├── apa.csl
 │   ├── book.bib
 │   ├── packages.bib
-│   ├── references.bib
-│   └── resources.md
+│   └── references.bib
 ├── LICENSE
 ├── preamble.tex
 ├── project_tree.txt
@@ -87,4 +84,4 @@ cdi-microbiome
 │   └── setup_r_env.sh
 └── style.css
 
-18 directories, 67 files
+17 directories, 65 files
