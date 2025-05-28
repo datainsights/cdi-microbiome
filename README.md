@@ -54,9 +54,8 @@ chmod +x scripts/setup_py_env.sh
 ### 📦 Notes
 
 - **R packages** are managed using `renv` and modular installer scripts in `scripts/`.
-- **Python packages** are listed in `requirements.txt` and installed via `venv`.
+- **Python packages** are listed in `requirements.txt` and installed using a standard virtual environment (`venv/`) created via Python’s built-in `venv` module.
 - Customize the environment by editing:
   - `scripts/common.R` and `scripts/microbiome.R` (for R)
   - `requirements.txt` (for Python)
-
 ---

@@ -4,13 +4,13 @@
 set -e
 
 # 🐍 Name your environment folder
-PYENV_NAME="pyenv"
+ENV_NAME="venv"
 
 # 🛠️ Create virtual environment
-python3 -m venv "$PYENV_NAME"
+python3 -m venv "$ENV_NAME"
 
 # 🔁 Activate virtual environment
-source "$PYENV_NAME/bin/activate"
+source "$ENV_NAME/bin/activate"
 
 # 📦 Upgrade pip
 pip install --upgrade pip
@@ -24,4 +24,4 @@ else
     exit 1
 fi
 
-echo "✅ Python environment setup complete in ./$PYENV_NAME/"
+echo "✅ Python environment setup complete in ./$ENV_NAME/"

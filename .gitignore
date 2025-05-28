@@ -7,21 +7,32 @@
 # macOS system files
 .DS_Store
 
+# Python virtual environment
+venv/
+
 # renv package management
+renv/
 renv/library/
 renv/staging/
 renv/python/
-pyenv/
-renv/
-# Bookdown output folders
-!docs/                # GitBook HTML (only if built elsewhere or published separately)
-!pdf/                 # PDF version (ignore if selling or privately hosting)
-data/
-!images/microbiome.png # Cover images
 
-# Common temporary and cache files
-*.utf8.md            # Intermediate markdown
-*.knit.md            # Knitted markdown
+# Bookdown and documentation output
+!docs/                 # GitBook HTML (exclude only if building elsewhere)
+!pdf/                  # Keep if selling/distributing PDF privately
+viz-pdf/
+stats-pdf/
+ml-pdf/
+viz-gitbook/
+stats-gitbook/
+ml-gitbook/
+
+# Images and data
+data/
+!images/microbiome.png  # Keep cover image only
+
+# Intermediate and cache files
+*.utf8.md
+*.knit.md
 *.log
 *.aux
 *.out
@@ -32,41 +43,12 @@ data/
 *.fls
 *.fdb_latexmk
 
-# Quarto and Pandoc cache (if ever used)
+# Quarto and Pandoc cache
 _quarto/
 _cache/
 
-# RStudio & OS junk
-.Rproj.user/
-.Rhistory
-.RData
-.Ruserdata
-.DS_Store
-
-# renv cache
-renv/library/
-renv/staging/
-renv/python/
-
-# Intermediate files
-*.utf8.md
-*.knit.md
-
-# PDF output folders
-viz-pdf/
-stats-pdf/
-ml-pdf/
-
-# GitBook folders (not deployed)
-viz-gitbook/
-stats-gitbook/
-ml-gitbook/
-
-
-
-# Temporary working file
+# Temporary/Working files
 index.Rmd
 _bookdown.yml
-
 *_files/figure-html/
 *_files/figure-latex/
