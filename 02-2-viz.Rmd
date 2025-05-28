@@ -1,4 +1,4 @@
-# (PART) MICROBIOME DATA VISUALIZATION {-}
+# (PART) DATA VISUALIZATION {-}
 
 # How do I visualize total OTU abundance per sample?
 

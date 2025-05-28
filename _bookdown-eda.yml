@@ -8,4 +8,4 @@ language:
 
 rmd_files:
   - index.Rmd
-  - 02-1-microb-eda.Rmd
+  - 02-1-eda.Rmd

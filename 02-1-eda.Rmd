@@ -1,4 +1,4 @@
-# (PART) MICROBIOME DATA EDA {-}
+# (PART) DATA EXPLORATION {-}
 
 # What are the essential tools for microbiome read quality control?
 

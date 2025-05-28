@@ -1,4 +1,4 @@
-# (PART) MICROBIOME STATS {-}
+# (PART) STATISTICAL ANALYSIS {-}
 
 # How do I statistically compare OTU richness between groups?
 

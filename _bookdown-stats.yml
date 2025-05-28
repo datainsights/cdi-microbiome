@@ -8,6 +8,6 @@ language:
 
 rmd_files:
   - index.Rmd
-  - 02-1-microb-eda.Rmd
-  - 02-2-microb-viz.Rmd
-  - 02-3-microb-stats.Rmd
+  - 02-1-eda.Rmd
+  - 02-2-viz.Rmd
+  - 02-3-stats.Rmd

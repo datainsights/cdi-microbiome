@@ -1,4 +1,4 @@
-# (PART) MICROBIOME MACHINE LEARNING {-}
+# (PART) MACHINE LEARNING {-}
 
 # How do I prepare microbiome data for machine learning?
 

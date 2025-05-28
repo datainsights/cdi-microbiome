@@ -28,7 +28,7 @@ ml-gitbook/
 
 # Images and data
 data/
-!images/microbiome.png  # Keep cover image only
+!images/cover.png  # Keep cover image only
 
 # Intermediate and cache files
 *.utf8.md
