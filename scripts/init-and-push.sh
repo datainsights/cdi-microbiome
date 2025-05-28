@@ -5,7 +5,7 @@ set -e
 REPO_NAME="cdi-microbiome"
 GITHUB_USER="datainsights"
 
-if [ ! -f "cdi-install-packages.R" ]; then
+if [ ! -f "scripts/cdi-install-packages.R" ]; then
   echo "❌ Please run this script from the root of the $REPO_NAME directory."
   exit 1
 fi
