@@ -1,11 +1,11 @@
-# 🦠 CDI Microbiome
+# 🦠 CDI: Microbiome Data Science
 
 [![Live Site](https://img.shields.io/badge/visit-site-blue?logo=githubpages)](https://microbiome.complexdatainsights.com)
 
-📘 **Live guide:** [microbiome.complexdatainsights.com](https://microbiome.complexdatainsights.com)
+📘 **Live guide:** [https://microbiome.complexdatainsights.com](https://microbiome.complexdatainsights.com)
 
-Modular, reproducible analysis framework for microbiome data using  
-**Bookdown**, **renv**, and **GitHub Actions** — published via custom subdomain and GitHub Pages.
+Modular, reproducible framework for microbiome analysis using  
+**Bookdown**, **renv**, and **GitHub Actions** — deployed via GitHub Pages.
 
 ---
 
@@ -18,20 +18,20 @@ Modular, reproducible analysis framework for microbiome data using
 
 ## 📘 Overview
 
-This domain focuses on microbiome workflows and reproducible report generation through layered Bookdown outputs:
+This domain explores microbiome sequencing data through structured layers, from EDA to statistical analysis and ML-ready feature tables.
 
-- 🧪 **Exploratory Data Analysis (EDA)** layer
+Layered structure:
+
+- 🔍 **Exploratory Data Analysis (EDA)** layer
 - 📊 **Visualization (VIZ)** layer *(coming soon)*
 - 📐 **Statistical Analysis (STATS)** layer *(coming soon)*
 - 🧠 **Machine Learning (ML)** layer *(coming soon)*
-
-Each layer is modular and version-controlled, allowing smooth scale-up across data science projects.
 
 ---
 
 ## 🛠️ Environment Setup
 
-This project uses both **R** and **Python** for microbiome data analysis.
+This project supports both **R** and **Python** workflows.
 
 ### 🔄 Option 1: Restore R dependencies directly
 
@@ -53,9 +53,32 @@ chmod +x scripts/setup_py_env.sh
 
 ### 📦 Notes
 
-- **R packages** are managed using `renv` and modular installer scripts in `scripts/`.
-- **Python packages** are listed in `requirements.txt` and installed using a standard virtual environment (`venv/`) created via Python’s built-in `venv` module.
-- Customize the environment by editing:
+- **R packages** are managed with `renv` and modular installer scripts in `scripts/`.
+- **Python packages** are listed in `requirements.txt` and installed using a virtual environment (`venv/`) created with Python’s built-in `venv` module.
+- Customize:
   - `scripts/common.R` and `scripts/microbiome.R` (for R)
   - `requirements.txt` (for Python)
+
 ---
+
+## 📁 Data Sources
+
+Example inputs:
+- Feature tables (OTU/ASV)
+- Metadata (e.g., sample conditions)
+- Phylogenetic trees and taxonomy files
+
+All data should be stored in the `data/` folder.
+
+---
+
+## 📄 License
+
+This guide is released under the [MIT License](LICENSE).  
+Attribution appreciated when used in educational or published works.
+
+---
+
+## 🧠 Maintainers
+
+Created and maintained by the **CDI Team** at [ComplexDataInsights.com](https://complexdatainsights.com)
