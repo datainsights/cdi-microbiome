@@ -1,6 +1,6 @@
 ---
 title: |
-  | Microbiome Exploratory Data Analysis
+  | Unlocking Microbial Insights
 subtitle: |
   | ![](images/cover.png){width=75%}
   | **Live site:** [https://microbiome.complexdatainsights.com](https://microbiome.complexdatainsights.com)
@@ -37,3 +37,22 @@ favicon: "favicon.ico"
 ---
 
 #  {-}
+
+# Welcome to CDI – Unlocking Microbial Insights {-}
+
+This guide introduces you to the world of microbial data and how to explore it meaningfully. Through accessible Q&As, you’ll begin analyzing abundance, diversity, and metadata in microbial ecosystems.
+
+---
+
+## 📚 The CDI Learning Path {-}
+
+This guide is part of the **CDI layered learning system**, where insights from complex data are explored step by step through four progressive layers:
+
+- **🔍 EDA (Exploratory Data Analysis)** – Start here. Understand your data, its structure, and quirks.
+- **📊 VIZ (Visualization)** – Learn how to communicate patterns and insights visually.
+- **📐 STATS (Statistical Analysis)** – Apply statistical methods to test hypotheses and quantify uncertainty.
+- **🤖 ML (Machine Learning)** – Use models to predict, classify, and extract deeper meaning.
+
+You’re currently reading the Exploratory Data Analysis (EDA) layer — the free, open-access starting point of the CDI layered learning system.
+
+Whether you're preparing for a remote role, analyzing real-world data, or mentoring others, CDI helps you grow — one Q&A at a time.

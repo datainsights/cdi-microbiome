@@ -4,7 +4,7 @@ bookdown::gitbook:
   config:
     toc:
       before: |
-        <li><a href="https://microbiome.complexdatainsights.com/">Microbiome Analysis</a></li>
+        <li><a href="https://microbiome.complexdatainsights.com/">Microbial Insights</a></li>
       after: |
         <li><a href="https://complexdatainsights.com/product">Explore More Guides</a></li>
     edit: https://github.com/datainsights/cdi-microbiome/edit/main/%s
