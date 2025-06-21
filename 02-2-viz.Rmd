@@ -1,6 +1,6 @@
 # (PART) DATA VISUALIZATION {-}
 
-# How do I visualize total OTU abundance per sample?
+# How do you  visualize total OTU abundance per sample?
 
 ## Explanation
 
@@ -49,7 +49,7 @@ ggplot(otu_long, aes(x = Sample, y = Total_OTUs)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-# How do I create a stacked bar plot of top genera across samples?
+# How do you  create a stacked bar plot of top genera across samples?
 
 ## Explanation
 
@@ -131,7 +131,7 @@ ggplot(long_df, aes(x = Sample, y = RelativeAbundance, fill = Genus)) +
   labs(title = "Stacked Barplot of Top Genera Across Samples", y = "Relative Abundance")
 ```
 
-# How do I visualize alpha diversity (richness) across groups?
+# How do you  visualize alpha diversity (richness) across groups?
 
 ## Explanation
 
@@ -196,7 +196,7 @@ ggplot(merged, aes(x = group, y = richness)) +
   labs(title = "Alpha Diversity (Richness) by Group", y = "Observed OTUs", x = "Group")
 ```
 
-# How do I perform ordination (e.g., PCA) to visualize sample clustering?
+# How do you  perform ordination (e.g., PCA) to visualize sample clustering?
 
 ## Explanation
 
@@ -271,7 +271,7 @@ ggplot(merged, aes(x = PC1, y = PC2, color = group, shape = location)) +
   labs(title = "PCA of Microbiome Samples", x = "PC1", y = "PC2")
 ```
 
-# How do I visualize OTU or Genus abundance using a heatmap?
+# How do you  visualize OTU or Genus abundance using a heatmap?
 
 ## Explanation
 

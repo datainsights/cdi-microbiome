@@ -32,7 +32,7 @@ mamba install -c biobakery kneaddata
 # (e.g., FastQC or MultiQC reports) can be imported into R for downstream summarization.
 ```
 
-# How do I obtain example microbiome sequencing data for analysis?
+# How do you  obtain example microbiome sequencing data for analysis?
 
 ## Explanation
 
@@ -66,7 +66,7 @@ wget https://data.qiime2.org/2024.2/tutorials/moving-pictures/emp-paired-end-seq
 # from tools like QIIME2 or mothur, R will be used for downstream analysis and visualization.
 ```  
 
-# How do I process raw sequencing data into a feature table using QIIME2?
+# How do you  process raw sequencing data into a feature table using QIIME2?
 
 ## Explanation
 
@@ -119,7 +119,7 @@ qiime dada2 denoise-paired \
 # Feature table (table.qza) can be exported and summarized later using Python or R.
 ``` 
 
-# How do I process raw sequencing data into a feature table using Mothur?
+# How do you  process raw sequencing data into a feature table using Mothur?
 
 ## Explanation
 
@@ -163,7 +163,7 @@ mothur > classify.otu(...)
 # Mothur is not Python-based, but output files can be parsed with pandas or biom-format readers.
 ```
 
-# How do I explore and summarize a microbiome OTU table?
+# How do you  explore and summarize a microbiome OTU table?
 
 ## Explanation
 
@@ -212,7 +212,7 @@ rowSums(otu_df > 0)
 summary(rowSums(otu_df))
 ```
 
-# How do I filter out low-abundance or low-prevalence OTUs?
+# How do you  filter out low-abundance or low-prevalence OTUs?
 
 ## Explanation
 

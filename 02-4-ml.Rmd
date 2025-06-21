@@ -1,6 +1,6 @@
 # (PART) MACHINE LEARNING {-}
 
-# How do I prepare microbiome data for machine learning?
+# How do you  prepare microbiome data for machine learning?
 
 ## Explanation
 
@@ -44,7 +44,7 @@ print("Test shape:", X_test.shape)
 # In R, similar workflows can be built using caret, tidymodels, or mlr3.
 ```
 
-# How do I train and evaluate a Random Forest classifier on microbiome data?
+# How do you  train and evaluate a Random Forest classifier on microbiome data?
 
 ## Explanation
 
@@ -118,7 +118,7 @@ pred <- predict(rf_model, newdata = test)
 confusionMatrix(pred, test$group)
 ```
 
-# How do I build a Logistic Regression model for microbiome classification?
+# How do you  build a Logistic Regression model for microbiome classification?
 
 ## Explanation
 
@@ -189,7 +189,7 @@ pred <- predict(lr_model, newdata = test)
 confusionMatrix(pred, test$group)
 ```
 
-# How do I train a Support Vector Machine (SVM) for microbiome classification?
+# How do you  train a Support Vector Machine (SVM) for microbiome classification?
 
 ## Explanation
 
@@ -255,7 +255,7 @@ pred <- predict(svm_model, newdata = test)
 confusionMatrix(pred, test$group)
 ```
 
-# How do I apply Gradient Boosting (XGBoost) for microbiome classification?
+# How do you  apply Gradient Boosting (XGBoost) for microbiome classification?
 
 ## Explanation
 
@@ -328,7 +328,7 @@ pred <- predict(xgb_model, newdata = test)
 confusionMatrix(pred, test$group)
 ```
 
-# How do I visualize ROC curves to compare classification models?
+# How do you  visualize ROC curves to compare classification models?
 
 ## Explanation
 
@@ -442,7 +442,7 @@ legend("bottomright", legend = names(models), col = cols, lwd = 2)
 ```
 
 
-# How do I apply cross-validation strategies to evaluate model reliability?
+# How do you  apply cross-validation strategies to evaluate model reliability?
 
 ## Explanation
 
@@ -502,7 +502,7 @@ print(cv_model)
 plot(cv_model)
 ```
 
-# How do I use `mikropml` in R for microbiome machine learning?
+# How do you  use `mikropml` in R for microbiome machine learning?
 
 ## Explanation
 

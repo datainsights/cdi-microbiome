@@ -1,6 +1,6 @@
 # (PART) STATISTICAL ANALYSIS {-}
 
-# How do I statistically compare OTU richness between groups?
+# How do you  statistically compare OTU richness between groups?
 
 ## Explanation
 
@@ -65,7 +65,7 @@ t_test$p.value
 wilcox_test$p.value
 ```
 
-# How do I test for correlation between alpha diversity and age?
+# How do you  test for correlation between alpha diversity and age?
 
 ## Explanation
 
@@ -122,7 +122,7 @@ cor.test(merged$richness, merged$age, method = "pearson")
 cor.test(merged$richness, merged$age, method = "spearman")
 ```
 
-# How do I compare alpha diversity across 3 or more groups?
+# How do you  compare alpha diversity across 3 or more groups?
 
 ## Explanation
 
@@ -183,7 +183,7 @@ summary(anova_res)
 kruskal_res
 ```
 
-# How do I test for differences in community composition using PERMANOVA?
+# How do you  test for differences in community composition using PERMANOVA?
 
 ## Explanation
 
@@ -236,7 +236,7 @@ adonis_res <- adonis2(bray ~ group, data = meta_df, permutations = 999)
 adonis_res
 ```
 
-# How do I test for differential abundance of OTUs across groups?
+# How do you  test for differential abundance of OTUs across groups?
 
 ## Explanation
 
