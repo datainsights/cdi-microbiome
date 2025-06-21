@@ -3,7 +3,6 @@ title: |
   | Unlocking Microbial Insights
 subtitle: |
   | ![](images/cover.png){width=75%}
-  | **Live site:** [https://microbiome.complexdatainsights.com](https://microbiome.complexdatainsights.com)
   | Last updated: `r format(Sys.Date(), "%B %d, %Y")` 
 knit: bookdown::render_book
 site: bookdown::bookdown_site
