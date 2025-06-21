@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Q&A 4 How do you process raw sequencing data into a feature table using Mothur? | microbiome-eda.knit</title>
+  <title>Q&A 12 How do you statistically compare OTU richness between groups? | microbiome-eda.knit</title>
   <meta name="description" content="Unlocking Microbial Insights" />
   <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Q&A 4 How do you process raw sequencing data into a feature table using Mothur? | microbiome-eda.knit" />
+  <meta property="og:title" content="Q&A 12 How do you statistically compare OTU richness between groups? | microbiome-eda.knit" />
   <meta property="og:type" content="book" />
   
   
   <meta name="github-repo" content="https://github.com/cdi-microbiome/" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Q&A 4 How do you process raw sequencing data into a feature table using Mothur? | microbiome-eda.knit" />
+  <meta name="twitter:title" content="Q&A 12 How do you statistically compare OTU richness between groups? | microbiome-eda.knit" />
   
   
   
@@ -28,8 +28,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-<link rel="prev" href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html"/>
-<link rel="next" href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html"/>
+<link rel="prev" href="how-do-you-visualize-otu-or-genus-abundance-using-a-heatmap.html"/>
+<link rel="next" href="how-do-you-test-for-correlation-between-alpha-diversity-and-age.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -323,45 +323,68 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur" class="section level1 hasAnchor" number="4">
-<h1><span class="header-section-number">Q&A 4</span> How do you process raw sequencing data into a feature table using Mothur?<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="explanation-3" class="section level2 hasAnchor" number="4.1">
-<h2><span class="header-section-number">4.1</span> Explanation<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#explanation-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Mothur is an open-source software package for analyzing 16S rRNA gene sequences. It supports raw data preprocessing, OTU clustering, and taxonomic assignment. Its workflow is particularly popular for microbial community studies and works well with single- or paired-end FASTQ data.</p>
-<p>Mothur pipelines are usually run using command files or interactively within the Mothur console. Key steps include:
-- Merging paired-end reads
-- Quality filtering
-- Aligning and clustering reads into OTUs
-- Generating <code>.shared</code> (feature table) and <code>.taxonomy</code> files</p>
+<div id="how-do-you-statistically-compare-otu-richness-between-groups" class="section level1 hasAnchor" number="12">
+<h1><span class="header-section-number">Q&A 12</span> How do you statistically compare OTU richness between groups?<a href="how-do-you-statistically-compare-otu-richness-between-groups.html#how-do-you-statistically-compare-otu-richness-between-groups" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="explanation-11" class="section level2 hasAnchor" number="12.1">
+<h2><span class="header-section-number">12.1</span> Explanation<a href="how-do-you-statistically-compare-otu-richness-between-groups.html#explanation-11" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Once you’ve calculated <strong>alpha diversity</strong> (e.g., observed OTUs per sample), it’s common to test whether <strong>groups differ significantly</strong>. This can help you determine if an experimental condition affects microbial richness.</p>
+<p>Typical tests include:
+- <strong>T-test</strong> (for two groups, normally distributed data)
+- <strong>Wilcoxon rank-sum test</strong> (non-parametric)
+- <strong>ANOVA or Kruskal-Wallis</strong> (for 3+ groups)</p>
+<p>Here we demonstrate group comparison for <strong>richness</strong> using appropriate statistical tests.</p>
 </div>
-<div id="shell-code-2" class="section level2 hasAnchor" number="4.2">
-<h2><span class="header-section-number">4.2</span> Shell Code<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#shell-code-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-1" tabindex="-1"></a><span class="co"># Launch Mothur</span></span>
-<span id="cb8-2"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-2" tabindex="-1"></a><span class="ex">mothur</span></span>
-<span id="cb8-3"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-3" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-4" tabindex="-1"></a><span class="co"># Inside Mothur console (example workflow)</span></span>
-<span id="cb8-5"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-5" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> make.file<span class="er">(</span><span class="va">inputdir</span><span class="op">=</span>./raw_data, <span class="va">type</span><span class="op">=</span>fastq, <span class="va">prefix</span><span class="op">=</span>stability<span class="kw">)</span></span>
-<span id="cb8-6"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-6" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> make.contigs<span class="er">(</span><span class="va">file</span><span class="op">=</span>stability.files, <span class="va">processors</span><span class="op">=</span>8<span class="kw">)</span></span>
-<span id="cb8-7"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-7" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> screen.seqs<span class="er">(</span><span class="va">fasta</span><span class="op">=</span>stability.trim.contigs.fasta, <span class="va">group</span><span class="op">=</span>stability.contigs.groups, <span class="va">maxambig</span><span class="op">=</span>0, <span class="va">maxlength</span><span class="op">=</span>275<span class="kw">)</span></span>
-<span id="cb8-8"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-8" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> unique.seqs<span class="er">(</span><span class="va">fasta</span><span class="op">=</span>stability.trim.contigs.good.fasta<span class="kw">)</span></span>
-<span id="cb8-9"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-9" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> count.seqs<span class="er">(</span><span class="va">name</span><span class="op">=</span>stability.trim.contigs.good.names, <span class="va">group</span><span class="op">=</span>stability.contigs.good.groups<span class="kw">)</span></span>
-<span id="cb8-10"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-10" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> align.seqs<span class="er">(</span><span class="va">fasta</span><span class="op">=</span>stability.trim.contigs.good.unique.fasta, <span class="va">reference</span><span class="op">=</span>silva.seed_v138.align<span class="kw">)</span></span>
-<span id="cb8-11"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-11" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> screen.seqs<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span>
-<span id="cb8-12"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-12" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> pre.cluster<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span>
-<span id="cb8-13"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-13" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> chimera.vsearch<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span>
-<span id="cb8-14"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-14" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> remove.seqs<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span>
-<span id="cb8-15"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-15" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> cluster.split<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span>
-<span id="cb8-16"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-16" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> make.shared<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span>
-<span id="cb8-17"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-17" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> classify.otu<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span></code></pre></div>
+<div id="python-code-7" class="section level2 hasAnchor" number="12.2">
+<h2><span class="header-section-number">12.2</span> Python Code<a href="how-do-you-statistically-compare-otu-richness-between-groups.html#python-code-7" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb30-1"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-1" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb30-2"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-2" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> ttest_ind, mannwhitneyu</span>
+<span id="cb30-3"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-3" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-4" tabindex="-1"></a><span class="co"># Load richness and metadata</span></span>
+<span id="cb30-5"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-5" tabindex="-1"></a>otu_df <span class="op">=</span> pd.read_csv(<span class="st">&quot;data/otu_table_filtered.tsv&quot;</span>, sep<span class="op">=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb30-6"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-6" tabindex="-1"></a>meta_df <span class="op">=</span> pd.read_csv(<span class="st">&quot;data/sample_metadata.tsv&quot;</span>, sep<span class="op">=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb30-7"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-7" tabindex="-1"></a></span>
+<span id="cb30-8"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-8" tabindex="-1"></a><span class="co"># Compute richness</span></span>
+<span id="cb30-9"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-9" tabindex="-1"></a>richness <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb30-10"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-10" tabindex="-1"></a>    <span class="st">&quot;sample_id&quot;</span>: otu_df.columns,</span>
+<span id="cb30-11"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-11" tabindex="-1"></a>    <span class="st">&quot;richness&quot;</span>: (otu_df <span class="op">&gt;</span> <span class="dv">0</span>).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">0</span>).values</span>
+<span id="cb30-12"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-12" tabindex="-1"></a>})</span>
+<span id="cb30-13"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-13" tabindex="-1"></a>data <span class="op">=</span> pd.merge(richness, meta_df, on<span class="op">=</span><span class="st">&quot;sample_id&quot;</span>)</span>
+<span id="cb30-14"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-14" tabindex="-1"></a></span>
+<span id="cb30-15"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-15" tabindex="-1"></a><span class="co"># Split by group</span></span>
+<span id="cb30-16"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-16" tabindex="-1"></a>control <span class="op">=</span> data[data[<span class="st">&quot;group&quot;</span>] <span class="op">==</span> <span class="st">&quot;Control&quot;</span>][<span class="st">&quot;richness&quot;</span>]</span>
+<span id="cb30-17"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-17" tabindex="-1"></a>treatment <span class="op">=</span> data[data[<span class="st">&quot;group&quot;</span>] <span class="op">==</span> <span class="st">&quot;Treatment&quot;</span>][<span class="st">&quot;richness&quot;</span>]</span>
+<span id="cb30-18"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-18" tabindex="-1"></a></span>
+<span id="cb30-19"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-19" tabindex="-1"></a><span class="co"># T-test (assumes normality)</span></span>
+<span id="cb30-20"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-20" tabindex="-1"></a>t_stat, t_pval <span class="op">=</span> ttest_ind(control, treatment)</span>
+<span id="cb30-21"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-21" tabindex="-1"></a></span>
+<span id="cb30-22"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-22" tabindex="-1"></a><span class="co"># Wilcoxon (non-parametric)</span></span>
+<span id="cb30-23"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-23" tabindex="-1"></a>w_stat, w_pval <span class="op">=</span> mannwhitneyu(control, treatment)</span>
+<span id="cb30-24"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-24" tabindex="-1"></a></span>
+<span id="cb30-25"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-25" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;T-test p-value: </span><span class="sc">{</span>t_pval<span class="sc">:.4f}</span><span class="ss">&quot;</span>)</span>
+<span id="cb30-26"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb30-26" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f&quot;Wilcoxon test p-value: </span><span class="sc">{</span>w_pval<span class="sc">:.4f}</span><span class="ss">&quot;</span>)</span></code></pre></div>
 </div>
-<div id="r-note-2" class="section level2 hasAnchor" number="4.3">
-<h2><span class="header-section-number">4.3</span> R Note<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#r-note-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb9-1" tabindex="-1"></a><span class="co"># Mothur outputs a `.shared` file (feature/OTU table) and `.taxonomy` file.</span></span>
-<span id="cb9-2"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb9-2" tabindex="-1"></a><span class="co"># These can be imported into R using packages like phyloseq or tidyverse for analysis.</span></span></code></pre></div>
-</div>
-<div id="python-note-2" class="section level2 hasAnchor" number="4.4">
-<h2><span class="header-section-number">4.4</span> Python Note<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#python-note-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb10-1" tabindex="-1"></a><span class="co"># Mothur is not Python-based, but output files can be parsed with pandas or biom-format readers.</span></span></code></pre></div>
+<div id="r-code-7" class="section level2 hasAnchor" number="12.3">
+<h2><span class="header-section-number">12.3</span> R Code<a href="how-do-you-statistically-compare-otu-richness-between-groups.html#r-code-7" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb31-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb31-2"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb31-2" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb31-3" tabindex="-1"></a>otu_df <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">&quot;data/otu_table_filtered.tsv&quot;</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb31-4"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb31-4" tabindex="-1"></a>meta_df <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">&quot;data/sample_metadata.tsv&quot;</span>)</span>
+<span id="cb31-5"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb31-5" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb31-6" tabindex="-1"></a><span class="co"># Calculate richness</span></span>
+<span id="cb31-7"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb31-7" tabindex="-1"></a>richness <span class="ot">&lt;-</span> <span class="fu">colSums</span>(otu_df <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb31-8"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb31-8" tabindex="-1"></a>richness_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">sample_id =</span> <span class="fu">names</span>(richness), <span class="at">richness =</span> richness)</span>
+<span id="cb31-9"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb31-9" tabindex="-1"></a>merged <span class="ot">&lt;-</span> <span class="fu">left_join</span>(richness_df, meta_df, <span class="at">by =</span> <span class="st">&quot;sample_id&quot;</span>)</span>
+<span id="cb31-10"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb31-10" tabindex="-1"></a></span>
+<span id="cb31-11"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb31-11" tabindex="-1"></a><span class="co"># T-test</span></span>
+<span id="cb31-12"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb31-12" tabindex="-1"></a>t_test <span class="ot">&lt;-</span> <span class="fu">t.test</span>(richness <span class="sc">~</span> group, <span class="at">data =</span> merged)</span>
+<span id="cb31-13"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb31-13" tabindex="-1"></a></span>
+<span id="cb31-14"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb31-14" tabindex="-1"></a><span class="co"># Wilcoxon test</span></span>
+<span id="cb31-15"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb31-15" tabindex="-1"></a>wilcox_test <span class="ot">&lt;-</span> <span class="fu">wilcox.test</span>(richness <span class="sc">~</span> group, <span class="at">data =</span> merged)</span>
+<span id="cb31-16"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb31-16" tabindex="-1"></a></span>
+<span id="cb31-17"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb31-17" tabindex="-1"></a>t_test<span class="sc">$</span>p.value</span></code></pre></div>
+<pre><code>[1] 0.2666018</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="how-do-you-statistically-compare-otu-richness-between-groups.html#cb33-1" tabindex="-1"></a>wilcox_test<span class="sc">$</span>p.value</span></code></pre></div>
+<pre><code>[1] 0.2447901</code></pre>
 </div>
 </div>
             </section>
@@ -369,8 +392,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="how-do-you-visualize-otu-or-genus-abundance-using-a-heatmap.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="how-do-you-test-for-correlation-between-alpha-diversity-and-age.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -401,7 +424,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/datainsights/cdi-microbiome/edit/main/02-1-eda.Rmd",
+    "link": "https://github.com/datainsights/cdi-microbiome/edit/main/02-3-stats.Rmd",
     "text": "Edit"
   },
   "history": {
