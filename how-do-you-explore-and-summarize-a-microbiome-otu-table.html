@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Unlocking Microbial Insights | microbiome-eda.knit</title>
+  <title>Q&A 5 How do you explore and summarize a microbiome OTU table? | microbiome-eda.knit</title>
   <meta name="description" content="Unlocking Microbial Insights" />
   <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Unlocking Microbial Insights | microbiome-eda.knit" />
+  <meta property="og:title" content="Q&A 5 How do you explore and summarize a microbiome OTU table? | microbiome-eda.knit" />
   <meta property="og:type" content="book" />
   
   
   <meta name="github-repo" content="https://github.com/cdi-microbiome/" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Unlocking Microbial Insights | microbiome-eda.knit" />
+  <meta name="twitter:title" content="Q&A 5 How do you explore and summarize a microbiome OTU table? | microbiome-eda.knit" />
   
   
   
@@ -28,8 +28,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="welcome-to-cdi-unlocking-microbial-insights.html"/>
+<link rel="prev" href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html"/>
+<link rel="next" href="how-do-you-filter-out-low-abundance-or-low-prevalence-otus.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -202,22 +202,73 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title"><div class="line-block">Unlocking Microbial Insights</div></h1>
-<h2 class="subtitle"><em><div class="line-block"><img src="images/cover.png" style="width:75.0%" /><br />
-<strong>Live site:</strong> <a href="https://microbiome.complexdatainsights.com">https://microbiome.complexdatainsights.com</a><br />
-Last updated: June 22, 2025</div></em></h2>
+<div id="how-do-you-explore-and-summarize-a-microbiome-otu-table" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Q&A 5</span> How do you explore and summarize a microbiome OTU table?<a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#how-do-you-explore-and-summarize-a-microbiome-otu-table" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="explanation-4" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Explanation<a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#explanation-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>After generating an OTU (or feature) table from raw sequencing data, it’s essential to inspect and summarize it before moving into alpha or beta diversity analysis.</p>
+<p>The OTU table is typically a matrix of <strong>samples × features</strong> (ASVs/OTUs), where each cell contains the abundance count of a feature in a sample.</p>
+<p>Key summary steps include:
+- Calculating <strong>sample richness</strong> (how many OTUs each sample contains)
+- Measuring <strong>OTU prevalence</strong> (in how many samples each OTU occurs)
+- Assessing <strong>abundance distribution</strong> (e.g., sparse vs dominant OTUs)
+- Identifying <strong>sparse or noisy features</strong> that may need filtering</p>
 </div>
-<div id="section" class="section level1 unnumbered">
-<h1 class="unnumbered"></h1>
+<div id="python-code" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Python Code<a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#python-code" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb11-1" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb11-2"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb11-2" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb11-3" tabindex="-1"></a><span class="co"># Load OTU table (OTUs as rows, samples as columns)</span></span>
+<span id="cb11-4"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb11-4" tabindex="-1"></a>otu_df <span class="op">=</span> pd.read_csv(<span class="st">&quot;data/otu_table.tsv&quot;</span>, sep<span class="op">=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb11-5"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb11-5" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb11-6" tabindex="-1"></a><span class="co"># Number of OTUs per sample (richness)</span></span>
+<span id="cb11-7"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb11-7" tabindex="-1"></a>sample_richness <span class="op">=</span> (otu_df <span class="op">&gt;</span> <span class="dv">0</span>).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb11-8"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb11-8" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb11-9" tabindex="-1"></a><span class="co"># Number of samples per OTU (prevalence)</span></span>
+<span id="cb11-10"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb11-10" tabindex="-1"></a>otu_prevalence <span class="op">=</span> (otu_df <span class="op">&gt;</span> <span class="dv">0</span>).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb11-11"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb11-11" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb11-12" tabindex="-1"></a><span class="co"># Distribution of total counts per OTU</span></span>
+<span id="cb11-13"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb11-13" tabindex="-1"></a>otu_abundance_summary <span class="op">=</span> otu_df.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>).describe()</span>
+<span id="cb11-14"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb11-14" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb11-15" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Sample Richness:&quot;</span>, sample_richness.head())</span>
+<span id="cb11-16"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb11-16" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;OTU Prevalence:&quot;</span>, otu_prevalence.head())</span>
+<span id="cb11-17"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb11-17" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Abundance Summary:&quot;</span>, otu_abundance_summary)</span></code></pre></div>
+</div>
+<div id="r-code" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> R Code<a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#r-code" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb12-1" tabindex="-1"></a>otu_df <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">&quot;data/otu_table.tsv&quot;</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb12-2"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb12-2" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb12-3" tabindex="-1"></a><span class="co"># Sample richness: number of OTUs per sample</span></span>
+<span id="cb12-4"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb12-4" tabindex="-1"></a><span class="fu">colSums</span>(otu_df <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code></pre></div>
+<pre><code> Sample_1  Sample_2  Sample_3  Sample_4  Sample_5  Sample_6  Sample_7  Sample_8 
+       44        44        43        40        40        42        45        43 
+ Sample_9 Sample_10 
+       45        41 </code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb14-1" tabindex="-1"></a><span class="co"># OTU prevalence: number of samples each OTU appears in</span></span>
+<span id="cb14-2"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb14-2" tabindex="-1"></a><span class="fu">rowSums</span>(otu_df <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code></pre></div>
+<pre><code> OTU_1  OTU_2  OTU_3  OTU_4  OTU_5  OTU_6  OTU_7  OTU_8  OTU_9 OTU_10 OTU_11 
+    10      7      9      9      8      8      7      8      9      8     10 
+OTU_12 OTU_13 OTU_14 OTU_15 OTU_16 OTU_17 OTU_18 OTU_19 OTU_20 OTU_21 OTU_22 
+     9     10      9      9      7      9     10      9     10      7      8 
+OTU_23 OTU_24 OTU_25 OTU_26 OTU_27 OTU_28 OTU_29 OTU_30 OTU_31 OTU_32 OTU_33 
+     8      9      8      9      9     10      8      8      7      9      9 
+OTU_34 OTU_35 OTU_36 OTU_37 OTU_38 OTU_39 OTU_40 OTU_41 OTU_42 OTU_43 OTU_44 
+     8     10     10      9     10      7      8      8      9      9      8 
+OTU_45 OTU_46 OTU_47 OTU_48 OTU_49 OTU_50 
+     8      8      8      7      7      9 </code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb16-1" tabindex="-1"></a><span class="co"># Distribution of total counts per OTU</span></span>
+<span id="cb16-2"><a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html#cb16-2" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">rowSums</span>(otu_df))</span></code></pre></div>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   36.0    41.0    48.0    47.4    52.0    64.0 </code></pre>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="welcome-to-cdi-unlocking-microbial-insights.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="how-do-you-filter-out-low-abundance-or-low-prevalence-otus.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -248,7 +299,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/datainsights/cdi-microbiome/edit/main/index.Rmd",
+    "link": "https://github.com/datainsights/cdi-microbiome/edit/main/02-1-eda.Rmd",
     "text": "Edit"
   },
   "history": {

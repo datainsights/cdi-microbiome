@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Unlocking Microbial Insights | microbiome-eda.knit</title>
+  <title>Q&A 3 How do you process raw sequencing data into a feature table using QIIME2? | microbiome-eda.knit</title>
   <meta name="description" content="Unlocking Microbial Insights" />
   <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Unlocking Microbial Insights | microbiome-eda.knit" />
+  <meta property="og:title" content="Q&A 3 How do you process raw sequencing data into a feature table using QIIME2? | microbiome-eda.knit" />
   <meta property="og:type" content="book" />
   
   
   <meta name="github-repo" content="https://github.com/cdi-microbiome/" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Unlocking Microbial Insights | microbiome-eda.knit" />
+  <meta name="twitter:title" content="Q&A 3 How do you process raw sequencing data into a feature table using QIIME2? | microbiome-eda.knit" />
   
   
   
@@ -28,8 +28,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="welcome-to-cdi-unlocking-microbial-insights.html"/>
+<link rel="prev" href="how-do-you-obtain-example-microbiome-sequencing-data-for-analysis.html"/>
+<link rel="next" href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -202,22 +202,63 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title"><div class="line-block">Unlocking Microbial Insights</div></h1>
-<h2 class="subtitle"><em><div class="line-block"><img src="images/cover.png" style="width:75.0%" /><br />
-<strong>Live site:</strong> <a href="https://microbiome.complexdatainsights.com">https://microbiome.complexdatainsights.com</a><br />
-Last updated: June 22, 2025</div></em></h2>
+<div id="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Q&A 3</span> How do you process raw sequencing data into a feature table using QIIME2?<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="explanation-2" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Explanation<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#explanation-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>After obtaining your raw FASTQ data, the first analytical step is transforming it into a structured format for analysis — the <strong>feature table</strong>. This is a matrix of counts (samples × ASVs or OTUs).</p>
+<p>QIIME2 is a powerful, Python-based platform for this entire workflow. It uses <code>.qza</code> files (QIIME artifacts) to structure data at each step and generates a <code>.qzv</code> summary for inspection.</p>
+<p>This pipeline includes:
+- Importing FASTQ data
+- Demultiplexing reads
+- Denoising to generate ASVs using <code>DADA2</code> or <code>Deblur</code>
+- Creating a feature table</p>
 </div>
-<div id="section" class="section level1 unnumbered">
-<h1 class="unnumbered"></h1>
+<div id="shell-code-qiime2-cli" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Shell Code (QIIME2 CLI)<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#shell-code-qiime2-cli" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-1" tabindex="-1"></a><span class="co"># 1. Import paired-end reads</span></span>
+<span id="cb6-2"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-2" tabindex="-1"></a><span class="ex">qiime</span> tools import <span class="dt">\</span></span>
+<span id="cb6-3"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-3" tabindex="-1"></a>  <span class="at">--type</span> EMPPairedEndSequences <span class="dt">\</span></span>
+<span id="cb6-4"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-4" tabindex="-1"></a>  <span class="at">--input-path</span> emp-paired-end-sequences <span class="dt">\</span></span>
+<span id="cb6-5"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-5" tabindex="-1"></a>  <span class="at">--output-path</span> emp-paired-end-sequences.qza</span>
+<span id="cb6-6"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-6" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-7" tabindex="-1"></a><span class="co"># 2. Demultiplex (barcode + sample mapping required)</span></span>
+<span id="cb6-8"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-8" tabindex="-1"></a><span class="ex">qiime</span> demux emp-paired <span class="dt">\</span></span>
+<span id="cb6-9"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-9" tabindex="-1"></a>  <span class="at">--i-seqs</span> emp-paired-end-sequences.qza <span class="dt">\</span></span>
+<span id="cb6-10"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-10" tabindex="-1"></a>  <span class="at">--m-barcodes-file</span> sample-metadata.tsv <span class="dt">\</span></span>
+<span id="cb6-11"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-11" tabindex="-1"></a>  <span class="at">--m-barcodes-column</span> BarcodeSequence <span class="dt">\</span></span>
+<span id="cb6-12"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-12" tabindex="-1"></a>  <span class="at">--o-per-sample-sequences</span> demux.qza <span class="dt">\</span></span>
+<span id="cb6-13"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-13" tabindex="-1"></a>  <span class="at">--o-error-correction-details</span> demux-details.qza</span>
+<span id="cb6-14"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-14" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-15" tabindex="-1"></a><span class="co"># 3. Visualize quality</span></span>
+<span id="cb6-16"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-16" tabindex="-1"></a><span class="ex">qiime</span> demux summarize <span class="dt">\</span></span>
+<span id="cb6-17"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-17" tabindex="-1"></a>  <span class="at">--i-data</span> demux.qza <span class="dt">\</span></span>
+<span id="cb6-18"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-18" tabindex="-1"></a>  <span class="at">--o-visualization</span> demux.qzv</span>
+<span id="cb6-19"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-19" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-20" tabindex="-1"></a><span class="co"># 4. Denoise with DADA2</span></span>
+<span id="cb6-21"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-21" tabindex="-1"></a><span class="ex">qiime</span> dada2 denoise-paired <span class="dt">\</span></span>
+<span id="cb6-22"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-22" tabindex="-1"></a>  <span class="at">--i-demultiplexed-seqs</span> demux.qza <span class="dt">\</span></span>
+<span id="cb6-23"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-23" tabindex="-1"></a>  <span class="at">--p-trim-left-f</span> 0 <span class="dt">\</span></span>
+<span id="cb6-24"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-24" tabindex="-1"></a>  <span class="at">--p-trim-left-r</span> 0 <span class="dt">\</span></span>
+<span id="cb6-25"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-25" tabindex="-1"></a>  <span class="at">--p-trunc-len-f</span> 240 <span class="dt">\</span></span>
+<span id="cb6-26"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-26" tabindex="-1"></a>  <span class="at">--p-trunc-len-r</span> 200 <span class="dt">\</span></span>
+<span id="cb6-27"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-27" tabindex="-1"></a>  <span class="at">--o-table</span> table.qza <span class="dt">\</span></span>
+<span id="cb6-28"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-28" tabindex="-1"></a>  <span class="at">--o-representative-sequences</span> rep-seqs.qza <span class="dt">\</span></span>
+<span id="cb6-29"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb6-29" tabindex="-1"></a>  <span class="at">--o-denoising-stats</span> denoising-stats.qza</span></code></pre></div>
+</div>
+<div id="python-note-1" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Python Note<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#python-note-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb7-1" tabindex="-1"></a><span class="co"># Although QIIME2 is Python-based, its workflow is run via CLI.</span></span>
+<span id="cb7-2"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html#cb7-2" tabindex="-1"></a><span class="co"># Feature table (table.qza) can be exported and summarized later using Python or R.</span></span></code></pre></div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="welcome-to-cdi-unlocking-microbial-insights.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="how-do-you-obtain-example-microbiome-sequencing-data-for-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -248,7 +289,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/datainsights/cdi-microbiome/edit/main/index.Rmd",
+    "link": "https://github.com/datainsights/cdi-microbiome/edit/main/02-1-eda.Rmd",
     "text": "Edit"
   },
   "history": {

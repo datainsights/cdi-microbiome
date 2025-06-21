@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Unlocking Microbial Insights | microbiome-eda.knit</title>
+  <title>Q&A 2 How do you obtain example microbiome sequencing data for analysis? | microbiome-eda.knit</title>
   <meta name="description" content="Unlocking Microbial Insights" />
   <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Unlocking Microbial Insights | microbiome-eda.knit" />
+  <meta property="og:title" content="Q&A 2 How do you obtain example microbiome sequencing data for analysis? | microbiome-eda.knit" />
   <meta property="og:type" content="book" />
   
   
   <meta name="github-repo" content="https://github.com/cdi-microbiome/" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Unlocking Microbial Insights | microbiome-eda.knit" />
+  <meta name="twitter:title" content="Q&A 2 How do you obtain example microbiome sequencing data for analysis? | microbiome-eda.knit" />
   
   
   
@@ -28,8 +28,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="welcome-to-cdi-unlocking-microbial-insights.html"/>
+<link rel="prev" href="what-are-the-essential-tools-for-microbiome-read-quality-control.html"/>
+<link rel="next" href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -202,22 +202,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title"><div class="line-block">Unlocking Microbial Insights</div></h1>
-<h2 class="subtitle"><em><div class="line-block"><img src="images/cover.png" style="width:75.0%" /><br />
-<strong>Live site:</strong> <a href="https://microbiome.complexdatainsights.com">https://microbiome.complexdatainsights.com</a><br />
-Last updated: June 22, 2025</div></em></h2>
+<div id="how-do-you-obtain-example-microbiome-sequencing-data-for-analysis" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Q&A 2</span> How do you obtain example microbiome sequencing data for analysis?<a href="how-do-you-obtain-example-microbiome-sequencing-data-for-analysis.html#how-do-you-obtain-example-microbiome-sequencing-data-for-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="explanation-1" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Explanation<a href="how-do-you-obtain-example-microbiome-sequencing-data-for-analysis.html#explanation-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Before performing any analysis, you need access to microbiome sequencing data. This data typically comes in the form of <strong>FASTQ</strong> files (either single-end or paired-end), which contain raw reads from amplicon sequencing.</p>
+<p>There are several sources for publicly available datasets:
+- <strong>QIIME2 Tutorials</strong>: Include curated sample data for testing pipelines
+- <strong>NCBI SRA / EBI ENA</strong>: Provide raw sequencing data from published studies
+- <strong>Qiita</strong>: A microbiome database for submitting and reusing 16S/18S/ITS data
+- <strong>Mock communities</strong>: Simulated or synthetic datasets used to benchmark tools</p>
+<p>This example uses the classic <em>Moving Pictures</em> tutorial dataset from QIIME2.</p>
 </div>
-<div id="section" class="section level1 unnumbered">
-<h1 class="unnumbered"></h1>
+<div id="shell-code-1" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Shell Code<a href="how-do-you-obtain-example-microbiome-sequencing-data-for-analysis.html#shell-code-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="how-do-you-obtain-example-microbiome-sequencing-data-for-analysis.html#cb3-1" tabindex="-1"></a><span class="co"># Download paired-end FASTQ data from QIIME2 tutorial</span></span>
+<span id="cb3-2"><a href="how-do-you-obtain-example-microbiome-sequencing-data-for-analysis.html#cb3-2" tabindex="-1"></a><span class="fu">wget</span> https://data.qiime2.org/2024.2/tutorials/moving-pictures/emp-paired-end-sequences/barcodes.fastq.gz</span>
+<span id="cb3-3"><a href="how-do-you-obtain-example-microbiome-sequencing-data-for-analysis.html#cb3-3" tabindex="-1"></a><span class="fu">wget</span> https://data.qiime2.org/2024.2/tutorials/moving-pictures/emp-paired-end-sequences/forward.fastq.gz</span>
+<span id="cb3-4"><a href="how-do-you-obtain-example-microbiome-sequencing-data-for-analysis.html#cb3-4" tabindex="-1"></a><span class="fu">wget</span> https://data.qiime2.org/2024.2/tutorials/moving-pictures/emp-paired-end-sequences/reverse.fastq.gz</span></code></pre></div>
+</div>
+<div id="python-note" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Python Note<a href="how-do-you-obtain-example-microbiome-sequencing-data-for-analysis.html#python-note" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="how-do-you-obtain-example-microbiome-sequencing-data-for-analysis.html#cb4-1" tabindex="-1"></a><span class="co"># Although QIIME2 is Python-based, raw sequencing data is usually downloaded externally.</span></span>
+<span id="cb4-2"><a href="how-do-you-obtain-example-microbiome-sequencing-data-for-analysis.html#cb4-2" tabindex="-1"></a><span class="co"># Python/QIIME2 will be used later to import and process these FASTQ files.</span></span></code></pre></div>
+</div>
+<div id="r-note-1" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> R Note<a href="how-do-you-obtain-example-microbiome-sequencing-data-for-analysis.html#r-note-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="how-do-you-obtain-example-microbiome-sequencing-data-for-analysis.html#cb5-1" tabindex="-1"></a><span class="co"># Most raw sequencing workflows do not begin in R. However, after generating feature tables</span></span>
+<span id="cb5-2"><a href="how-do-you-obtain-example-microbiome-sequencing-data-for-analysis.html#cb5-2" tabindex="-1"></a><span class="co"># from tools like QIIME2 or mothur, R will be used for downstream analysis and visualization.</span></span></code></pre></div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="welcome-to-cdi-unlocking-microbial-insights.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="what-are-the-essential-tools-for-microbiome-read-quality-control.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -248,7 +269,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/datainsights/cdi-microbiome/edit/main/index.Rmd",
+    "link": "https://github.com/datainsights/cdi-microbiome/edit/main/02-1-eda.Rmd",
     "text": "Edit"
   },
   "history": {
