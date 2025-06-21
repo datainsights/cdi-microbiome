@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Q&A 4 How do you process raw sequencing data into a feature table using Mothur? | microbiome-eda.knit</title>
+  <title>Q&A 23 How do you apply cross-validation strategies to evaluate model reliability? | microbiome-eda.knit</title>
   <meta name="description" content="Unlocking Microbial Insights" />
   <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Q&A 4 How do you process raw sequencing data into a feature table using Mothur? | microbiome-eda.knit" />
+  <meta property="og:title" content="Q&A 23 How do you apply cross-validation strategies to evaluate model reliability? | microbiome-eda.knit" />
   <meta property="og:type" content="book" />
   
   
   <meta name="github-repo" content="https://github.com/cdi-microbiome/" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Q&A 4 How do you process raw sequencing data into a feature table using Mothur? | microbiome-eda.knit" />
+  <meta name="twitter:title" content="Q&A 23 How do you apply cross-validation strategies to evaluate model reliability? | microbiome-eda.knit" />
   
   
   
@@ -28,8 +28,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-<link rel="prev" href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html"/>
-<link rel="next" href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html"/>
+<link rel="prev" href="how-do-you-visualize-roc-curves-to-compare-classification-models.html"/>
+<link rel="next" href="how-do-you-use-mikropml-in-r-for-microbiome-machine-learning.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -323,45 +323,80 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur" class="section level1 hasAnchor" number="4">
-<h1><span class="header-section-number">Q&A 4</span> How do you process raw sequencing data into a feature table using Mothur?<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="explanation-3" class="section level2 hasAnchor" number="4.1">
-<h2><span class="header-section-number">4.1</span> Explanation<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#explanation-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Mothur is an open-source software package for analyzing 16S rRNA gene sequences. It supports raw data preprocessing, OTU clustering, and taxonomic assignment. Its workflow is particularly popular for microbial community studies and works well with single- or paired-end FASTQ data.</p>
-<p>Mothur pipelines are usually run using command files or interactively within the Mothur console. Key steps include:
-- Merging paired-end reads
-- Quality filtering
-- Aligning and clustering reads into OTUs
-- Generating <code>.shared</code> (feature table) and <code>.taxonomy</code> files</p>
+<div id="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability" class="section level1 hasAnchor" number="23">
+<h1><span class="header-section-number">Q&A 23</span> How do you apply cross-validation strategies to evaluate model reliability?<a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="explanation-22" class="section level2 hasAnchor" number="23.1">
+<h2><span class="header-section-number">23.1</span> Explanation<a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#explanation-22" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Cross-validation (CV)</strong> is critical for evaluating how well a machine learning model generalizes to unseen data. It reduces the risk of overfitting by testing the model on multiple train/test splits.</p>
+<p>Common CV strategies:
+- <strong>k-Fold</strong>: Split into k subsets, rotate test set
+- <strong>Repeated k-Fold</strong>: More robust by repeating k-fold several times
+- <strong>Stratified k-Fold</strong>: Ensures balanced class distribution in folds</p>
+<p>This Q&amp;A shows how to apply CV in Python and R using common microbiome classifiers.</p>
 </div>
-<div id="shell-code-2" class="section level2 hasAnchor" number="4.2">
-<h2><span class="header-section-number">4.2</span> Shell Code<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#shell-code-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-1" tabindex="-1"></a><span class="co"># Launch Mothur</span></span>
-<span id="cb8-2"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-2" tabindex="-1"></a><span class="ex">mothur</span></span>
-<span id="cb8-3"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-3" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-4" tabindex="-1"></a><span class="co"># Inside Mothur console (example workflow)</span></span>
-<span id="cb8-5"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-5" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> make.file<span class="er">(</span><span class="va">inputdir</span><span class="op">=</span>./raw_data, <span class="va">type</span><span class="op">=</span>fastq, <span class="va">prefix</span><span class="op">=</span>stability<span class="kw">)</span></span>
-<span id="cb8-6"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-6" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> make.contigs<span class="er">(</span><span class="va">file</span><span class="op">=</span>stability.files, <span class="va">processors</span><span class="op">=</span>8<span class="kw">)</span></span>
-<span id="cb8-7"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-7" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> screen.seqs<span class="er">(</span><span class="va">fasta</span><span class="op">=</span>stability.trim.contigs.fasta, <span class="va">group</span><span class="op">=</span>stability.contigs.groups, <span class="va">maxambig</span><span class="op">=</span>0, <span class="va">maxlength</span><span class="op">=</span>275<span class="kw">)</span></span>
-<span id="cb8-8"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-8" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> unique.seqs<span class="er">(</span><span class="va">fasta</span><span class="op">=</span>stability.trim.contigs.good.fasta<span class="kw">)</span></span>
-<span id="cb8-9"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-9" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> count.seqs<span class="er">(</span><span class="va">name</span><span class="op">=</span>stability.trim.contigs.good.names, <span class="va">group</span><span class="op">=</span>stability.contigs.good.groups<span class="kw">)</span></span>
-<span id="cb8-10"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-10" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> align.seqs<span class="er">(</span><span class="va">fasta</span><span class="op">=</span>stability.trim.contigs.good.unique.fasta, <span class="va">reference</span><span class="op">=</span>silva.seed_v138.align<span class="kw">)</span></span>
-<span id="cb8-11"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-11" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> screen.seqs<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span>
-<span id="cb8-12"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-12" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> pre.cluster<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span>
-<span id="cb8-13"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-13" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> chimera.vsearch<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span>
-<span id="cb8-14"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-14" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> remove.seqs<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span>
-<span id="cb8-15"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-15" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> cluster.split<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span>
-<span id="cb8-16"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-16" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> make.shared<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span>
-<span id="cb8-17"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-17" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> classify.otu<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span></code></pre></div>
+<div id="python-code-18" class="section level2 hasAnchor" number="23.2">
+<h2><span class="header-section-number">23.2</span> Python Code<a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#python-code-18" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb69"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb69-1"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb69-1" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb69-2"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb69-2" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
+<span id="cb69-3"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb69-3" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score, StratifiedKFold</span>
+<span id="cb69-4"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb69-4" tabindex="-1"></a></span>
+<span id="cb69-5"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb69-5" tabindex="-1"></a><span class="co"># Load and prepare data</span></span>
+<span id="cb69-6"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb69-6" tabindex="-1"></a>otu_df <span class="op">=</span> pd.read_csv(<span class="st">&quot;data/otu_table_filtered.tsv&quot;</span>, sep<span class="op">=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, index_col<span class="op">=</span><span class="dv">0</span>).T</span>
+<span id="cb69-7"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb69-7" tabindex="-1"></a>meta_df <span class="op">=</span> pd.read_csv(<span class="st">&quot;data/sample_metadata.tsv&quot;</span>, sep<span class="op">=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb69-8"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb69-8" tabindex="-1"></a>data <span class="op">=</span> pd.merge(otu_df, meta_df, left_index<span class="op">=</span><span class="va">True</span>, right_on<span class="op">=</span><span class="st">&quot;sample_id&quot;</span>)</span>
+<span id="cb69-9"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb69-9" tabindex="-1"></a>X <span class="op">=</span> data[otu_df.columns]</span>
+<span id="cb69-10"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb69-10" tabindex="-1"></a>y <span class="op">=</span> data[<span class="st">&quot;group&quot;</span>].<span class="bu">map</span>({<span class="st">&quot;Control&quot;</span>: <span class="dv">0</span>, <span class="st">&quot;Treatment&quot;</span>: <span class="dv">1</span>})</span>
+<span id="cb69-11"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb69-11" tabindex="-1"></a></span>
+<span id="cb69-12"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb69-12" tabindex="-1"></a><span class="co"># Define CV strategy</span></span>
+<span id="cb69-13"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb69-13" tabindex="-1"></a>cv <span class="op">=</span> StratifiedKFold(n_splits<span class="op">=</span><span class="dv">5</span>, shuffle<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb69-14"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb69-14" tabindex="-1"></a></span>
+<span id="cb69-15"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb69-15" tabindex="-1"></a><span class="co"># Evaluate Random Forest using cross-validation</span></span>
+<span id="cb69-16"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb69-16" tabindex="-1"></a>model <span class="op">=</span> RandomForestClassifier(random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb69-17"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb69-17" tabindex="-1"></a>scores <span class="op">=</span> cross_val_score(model, X, y, cv<span class="op">=</span>cv, scoring<span class="op">=</span><span class="st">&quot;accuracy&quot;</span>)</span>
+<span id="cb69-18"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb69-18" tabindex="-1"></a></span>
+<span id="cb69-19"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb69-19" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Cross-Validation Accuracy Scores:&quot;</span>, scores)</span>
+<span id="cb69-20"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb69-20" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Mean Accuracy:&quot;</span>, scores.mean())</span></code></pre></div>
 </div>
-<div id="r-note-2" class="section level2 hasAnchor" number="4.3">
-<h2><span class="header-section-number">4.3</span> R Note<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#r-note-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb9-1" tabindex="-1"></a><span class="co"># Mothur outputs a `.shared` file (feature/OTU table) and `.taxonomy` file.</span></span>
-<span id="cb9-2"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb9-2" tabindex="-1"></a><span class="co"># These can be imported into R using packages like phyloseq or tidyverse for analysis.</span></span></code></pre></div>
-</div>
-<div id="python-note-2" class="section level2 hasAnchor" number="4.4">
-<h2><span class="header-section-number">4.4</span> Python Note<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#python-note-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb10-1" tabindex="-1"></a><span class="co"># Mothur is not Python-based, but output files can be parsed with pandas or biom-format readers.</span></span></code></pre></div>
+<div id="r-code-caret-with-repeated-k-fold-cv" class="section level2 hasAnchor" number="23.3">
+<h2><span class="header-section-number">23.3</span> R Code (caret with repeated k-fold CV)<a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#r-code-caret-with-repeated-k-fold-cv" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb70-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb70-2"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb70-2" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb70-3"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb70-3" tabindex="-1"></a></span>
+<span id="cb70-4"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb70-4" tabindex="-1"></a>otu_df <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">&quot;data/otu_table_filtered.tsv&quot;</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb70-5"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb70-5" tabindex="-1"></a>meta_df <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">&quot;data/sample_metadata.tsv&quot;</span>)</span>
+<span id="cb70-6"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb70-6" tabindex="-1"></a>otu_df <span class="ot">&lt;-</span> otu_df[, meta_df<span class="sc">$</span>sample_id]</span>
+<span id="cb70-7"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb70-7" tabindex="-1"></a>otu_df <span class="ot">&lt;-</span> <span class="fu">t</span>(otu_df)</span>
+<span id="cb70-8"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb70-8" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">as.data.frame</span>(otu_df), <span class="at">group =</span> <span class="fu">as.factor</span>(meta_df<span class="sc">$</span>group))</span>
+<span id="cb70-9"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb70-9" tabindex="-1"></a></span>
+<span id="cb70-10"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb70-10" tabindex="-1"></a><span class="co"># Define CV control</span></span>
+<span id="cb70-11"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb70-11" tabindex="-1"></a>ctrl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">&quot;repeatedcv&quot;</span>, <span class="at">number =</span> <span class="dv">5</span>, <span class="at">repeats =</span> <span class="dv">3</span>)</span>
+<span id="cb70-12"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb70-12" tabindex="-1"></a></span>
+<span id="cb70-13"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb70-13" tabindex="-1"></a><span class="co"># Train with CV</span></span>
+<span id="cb70-14"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb70-14" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb70-15"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb70-15" tabindex="-1"></a>cv_model <span class="ot">&lt;-</span> <span class="fu">train</span>(group <span class="sc">~</span> ., <span class="at">data =</span> data, <span class="at">method =</span> <span class="st">&quot;rf&quot;</span>, <span class="at">trControl =</span> ctrl)</span>
+<span id="cb70-16"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb70-16" tabindex="-1"></a></span>
+<span id="cb70-17"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb70-17" tabindex="-1"></a><span class="co"># Results</span></span>
+<span id="cb70-18"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb70-18" tabindex="-1"></a><span class="fu">print</span>(cv_model)</span></code></pre></div>
+<pre><code>Random Forest 
+
+10 samples
+50 predictors
+ 2 classes: &#39;Control&#39;, &#39;Treatment&#39; 
+
+No pre-processing
+Resampling: Cross-Validated (5 fold, repeated 3 times) 
+Summary of sample sizes: 8, 8, 8, 8, 8, 8, ... 
+Resampling results across tuning parameters:
+
+  mtry  Accuracy   Kappa     
+   2    0.2333333  -0.5333333
+  26    0.4000000  -0.2000000
+  50    0.4000000  -0.2000000
+
+Accuracy was used to select the optimal model using the largest value.
+The final value used for the model was mtry = 26.</code></pre>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="how-do-you-apply-cross-validation-strategies-to-evaluate-model-reliability.html#cb72-1" tabindex="-1"></a><span class="fu">plot</span>(cv_model)</span></code></pre></div>
+<p><img src="microbiome-eda_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 </div>
 </div>
             </section>
@@ -369,8 +404,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="how-do-you-visualize-roc-curves-to-compare-classification-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="how-do-you-use-mikropml-in-r-for-microbiome-machine-learning.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -401,7 +436,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/datainsights/cdi-microbiome/edit/main/02-1-eda.Rmd",
+    "link": "https://github.com/datainsights/cdi-microbiome/edit/main/02-4-ml.Rmd",
     "text": "Edit"
   },
   "history": {

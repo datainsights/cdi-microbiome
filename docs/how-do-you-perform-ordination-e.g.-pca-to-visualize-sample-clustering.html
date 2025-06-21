@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Q&A 4 How do you process raw sequencing data into a feature table using Mothur? | microbiome-eda.knit</title>
+  <title>Q&A 10 How do you perform ordination (e.g., PCA) to visualize sample clustering? | microbiome-eda.knit</title>
   <meta name="description" content="Unlocking Microbial Insights" />
   <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Q&A 4 How do you process raw sequencing data into a feature table using Mothur? | microbiome-eda.knit" />
+  <meta property="og:title" content="Q&A 10 How do you perform ordination (e.g., PCA) to visualize sample clustering? | microbiome-eda.knit" />
   <meta property="og:type" content="book" />
   
   
   <meta name="github-repo" content="https://github.com/cdi-microbiome/" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Q&A 4 How do you process raw sequencing data into a feature table using Mothur? | microbiome-eda.knit" />
+  <meta name="twitter:title" content="Q&A 10 How do you perform ordination (e.g., PCA) to visualize sample clustering? | microbiome-eda.knit" />
   
   
   
@@ -28,8 +28,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-<link rel="prev" href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html"/>
-<link rel="next" href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html"/>
+<link rel="prev" href="how-do-you-visualize-alpha-diversity-richness-across-groups.html"/>
+<link rel="next" href="how-do-you-visualize-otu-or-genus-abundance-using-a-heatmap.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -323,45 +323,77 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur" class="section level1 hasAnchor" number="4">
-<h1><span class="header-section-number">Q&A 4</span> How do you process raw sequencing data into a feature table using Mothur?<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="explanation-3" class="section level2 hasAnchor" number="4.1">
-<h2><span class="header-section-number">4.1</span> Explanation<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#explanation-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Mothur is an open-source software package for analyzing 16S rRNA gene sequences. It supports raw data preprocessing, OTU clustering, and taxonomic assignment. Its workflow is particularly popular for microbial community studies and works well with single- or paired-end FASTQ data.</p>
-<p>Mothur pipelines are usually run using command files or interactively within the Mothur console. Key steps include:
-- Merging paired-end reads
-- Quality filtering
-- Aligning and clustering reads into OTUs
-- Generating <code>.shared</code> (feature table) and <code>.taxonomy</code> files</p>
+<div id="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering" class="section level1 hasAnchor" number="10">
+<h1><span class="header-section-number">Q&A 10</span> How do you perform ordination (e.g., PCA) to visualize sample clustering?<a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="explanation-9" class="section level2 hasAnchor" number="10.1">
+<h2><span class="header-section-number">10.1</span> Explanation<a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#explanation-9" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Ordination techniques like <strong>PCA</strong>, <strong>NMDS</strong>, or <strong>PCoA</strong> help reduce the complexity of high-dimensional OTU tables, making it easier to visualize <strong>sample relationships</strong>.</p>
+<p>These methods project samples into 2D or 3D based on similarity in microbial composition. Samples that cluster together share similar community profiles.</p>
+<p>In this example, we’ll perform PCA on centered log-ratio (CLR) transformed data — a common preprocessing step in microbiome compositional analysis.</p>
 </div>
-<div id="shell-code-2" class="section level2 hasAnchor" number="4.2">
-<h2><span class="header-section-number">4.2</span> Shell Code<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#shell-code-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-1" tabindex="-1"></a><span class="co"># Launch Mothur</span></span>
-<span id="cb8-2"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-2" tabindex="-1"></a><span class="ex">mothur</span></span>
-<span id="cb8-3"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-3" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-4" tabindex="-1"></a><span class="co"># Inside Mothur console (example workflow)</span></span>
-<span id="cb8-5"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-5" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> make.file<span class="er">(</span><span class="va">inputdir</span><span class="op">=</span>./raw_data, <span class="va">type</span><span class="op">=</span>fastq, <span class="va">prefix</span><span class="op">=</span>stability<span class="kw">)</span></span>
-<span id="cb8-6"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-6" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> make.contigs<span class="er">(</span><span class="va">file</span><span class="op">=</span>stability.files, <span class="va">processors</span><span class="op">=</span>8<span class="kw">)</span></span>
-<span id="cb8-7"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-7" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> screen.seqs<span class="er">(</span><span class="va">fasta</span><span class="op">=</span>stability.trim.contigs.fasta, <span class="va">group</span><span class="op">=</span>stability.contigs.groups, <span class="va">maxambig</span><span class="op">=</span>0, <span class="va">maxlength</span><span class="op">=</span>275<span class="kw">)</span></span>
-<span id="cb8-8"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-8" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> unique.seqs<span class="er">(</span><span class="va">fasta</span><span class="op">=</span>stability.trim.contigs.good.fasta<span class="kw">)</span></span>
-<span id="cb8-9"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-9" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> count.seqs<span class="er">(</span><span class="va">name</span><span class="op">=</span>stability.trim.contigs.good.names, <span class="va">group</span><span class="op">=</span>stability.contigs.good.groups<span class="kw">)</span></span>
-<span id="cb8-10"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-10" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> align.seqs<span class="er">(</span><span class="va">fasta</span><span class="op">=</span>stability.trim.contigs.good.unique.fasta, <span class="va">reference</span><span class="op">=</span>silva.seed_v138.align<span class="kw">)</span></span>
-<span id="cb8-11"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-11" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> screen.seqs<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span>
-<span id="cb8-12"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-12" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> pre.cluster<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span>
-<span id="cb8-13"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-13" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> chimera.vsearch<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span>
-<span id="cb8-14"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-14" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> remove.seqs<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span>
-<span id="cb8-15"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-15" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> cluster.split<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span>
-<span id="cb8-16"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-16" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> make.shared<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span>
-<span id="cb8-17"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb8-17" tabindex="-1"></a><span class="ex">mothur</span> <span class="op">&gt;</span> classify.otu<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span></code></pre></div>
+<div id="python-code-5" class="section level2 hasAnchor" number="10.2">
+<h2><span class="header-section-number">10.2</span> Python Code<a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#python-code-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-1" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb26-2"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-2" tabindex="-1"></a><span class="im">from</span> sklearn.decomposition <span class="im">import</span> PCA</span>
+<span id="cb26-3"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-3" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb26-4"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-4" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb26-5"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-5" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb26-6"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-6" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-7" tabindex="-1"></a><span class="co"># Load OTU and metadata</span></span>
+<span id="cb26-8"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-8" tabindex="-1"></a>otu_df <span class="op">=</span> pd.read_csv(<span class="st">&quot;data/otu_table_filtered.tsv&quot;</span>, sep<span class="op">=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, index_col<span class="op">=</span><span class="dv">0</span>).T</span>
+<span id="cb26-9"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-9" tabindex="-1"></a>meta_df <span class="op">=</span> pd.read_csv(<span class="st">&quot;data/sample_metadata.tsv&quot;</span>, sep<span class="op">=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb26-10"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-10" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-11" tabindex="-1"></a><span class="co"># Replace 0s with pseudocount for log transformation</span></span>
+<span id="cb26-12"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-12" tabindex="-1"></a>otu_df <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb26-13"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-13" tabindex="-1"></a>otu_log <span class="op">=</span> np.log(otu_df)</span>
+<span id="cb26-14"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-14" tabindex="-1"></a></span>
+<span id="cb26-15"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-15" tabindex="-1"></a><span class="co"># Standardize (optional)</span></span>
+<span id="cb26-16"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-16" tabindex="-1"></a>otu_scaled <span class="op">=</span> StandardScaler().fit_transform(otu_log)</span>
+<span id="cb26-17"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-17" tabindex="-1"></a></span>
+<span id="cb26-18"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-18" tabindex="-1"></a><span class="co"># PCA</span></span>
+<span id="cb26-19"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-19" tabindex="-1"></a>pca <span class="op">=</span> PCA(n_components<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb26-20"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-20" tabindex="-1"></a>pca_result <span class="op">=</span> pca.fit_transform(otu_scaled)</span>
+<span id="cb26-21"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-21" tabindex="-1"></a>pca_df <span class="op">=</span> pd.DataFrame(pca_result, columns<span class="op">=</span>[<span class="st">&quot;PC1&quot;</span>, <span class="st">&quot;PC2&quot;</span>])</span>
+<span id="cb26-22"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-22" tabindex="-1"></a>pca_df[<span class="st">&quot;sample_id&quot;</span>] <span class="op">=</span> otu_df.index</span>
+<span id="cb26-23"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-23" tabindex="-1"></a></span>
+<span id="cb26-24"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-24" tabindex="-1"></a><span class="co"># Merge with metadata</span></span>
+<span id="cb26-25"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-25" tabindex="-1"></a>pca_df <span class="op">=</span> pd.merge(pca_df, meta_df, on<span class="op">=</span><span class="st">&quot;sample_id&quot;</span>)</span>
+<span id="cb26-26"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-26" tabindex="-1"></a></span>
+<span id="cb26-27"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-27" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb26-28"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-28" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb26-29"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-29" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>pca_df, x<span class="op">=</span><span class="st">&quot;PC1&quot;</span>, y<span class="op">=</span><span class="st">&quot;PC2&quot;</span>, hue<span class="op">=</span><span class="st">&quot;group&quot;</span>, style<span class="op">=</span><span class="st">&quot;location&quot;</span>, s<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb26-30"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-30" tabindex="-1"></a>plt.title(<span class="st">&quot;PCA of Microbiome Samples&quot;</span>)</span>
+<span id="cb26-31"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-31" tabindex="-1"></a>plt.xlabel(<span class="ss">f&quot;PC1 (</span><span class="sc">{</span>pca<span class="sc">.</span>explained_variance_ratio_[<span class="dv">0</span>]<span class="sc">:.2%}</span><span class="ss">)&quot;</span>)</span>
+<span id="cb26-32"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-32" tabindex="-1"></a>plt.ylabel(<span class="ss">f&quot;PC2 (</span><span class="sc">{</span>pca<span class="sc">.</span>explained_variance_ratio_[<span class="dv">1</span>]<span class="sc">:.2%}</span><span class="ss">)&quot;</span>)</span>
+<span id="cb26-33"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-33" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb26-34"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb26-34" tabindex="-1"></a>plt.show()</span></code></pre></div>
 </div>
-<div id="r-note-2" class="section level2 hasAnchor" number="4.3">
-<h2><span class="header-section-number">4.3</span> R Note<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#r-note-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb9-1" tabindex="-1"></a><span class="co"># Mothur outputs a `.shared` file (feature/OTU table) and `.taxonomy` file.</span></span>
-<span id="cb9-2"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb9-2" tabindex="-1"></a><span class="co"># These can be imported into R using packages like phyloseq or tidyverse for analysis.</span></span></code></pre></div>
-</div>
-<div id="python-note-2" class="section level2 hasAnchor" number="4.4">
-<h2><span class="header-section-number">4.4</span> Python Note<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#python-note-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-mothur.html#cb10-1" tabindex="-1"></a><span class="co"># Mothur is not Python-based, but output files can be parsed with pandas or biom-format readers.</span></span></code></pre></div>
+<div id="r-code-5" class="section level2 hasAnchor" number="10.3">
+<h2><span class="header-section-number">10.3</span> R Code<a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#r-code-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb27-2"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-2" tabindex="-1"></a><span class="fu">library</span>(vegan)</span>
+<span id="cb27-3"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-3" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-4" tabindex="-1"></a>otu_df <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">&quot;data/otu_table_filtered.tsv&quot;</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb27-5"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-5" tabindex="-1"></a>meta_df <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">&quot;data/sample_metadata.tsv&quot;</span>)</span>
+<span id="cb27-6"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-6" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-7" tabindex="-1"></a><span class="co"># CLR transformation (log + pseudocount)</span></span>
+<span id="cb27-8"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-8" tabindex="-1"></a>otu_clr <span class="ot">&lt;-</span> <span class="fu">log</span>(otu_df <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb27-9"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-9" tabindex="-1"></a>otu_scaled <span class="ot">&lt;-</span> <span class="fu">scale</span>(<span class="fu">t</span>(otu_clr))  <span class="co"># samples as rows</span></span>
+<span id="cb27-10"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-10" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-11" tabindex="-1"></a><span class="co"># PCA</span></span>
+<span id="cb27-12"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-12" tabindex="-1"></a>pca_res <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(otu_scaled, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb27-13"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-13" tabindex="-1"></a>pca_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pca_res<span class="sc">$</span>x[, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span>
+<span id="cb27-14"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-14" tabindex="-1"></a>pca_df<span class="sc">$</span>sample_id <span class="ot">&lt;-</span> <span class="fu">rownames</span>(pca_df)</span>
+<span id="cb27-15"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-15" tabindex="-1"></a></span>
+<span id="cb27-16"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-16" tabindex="-1"></a><span class="co"># Merge</span></span>
+<span id="cb27-17"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-17" tabindex="-1"></a>merged <span class="ot">&lt;-</span> <span class="fu">left_join</span>(pca_df, meta_df, <span class="at">by =</span> <span class="st">&quot;sample_id&quot;</span>)</span>
+<span id="cb27-18"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-18" tabindex="-1"></a></span>
+<span id="cb27-19"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-19" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb27-20"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-20" tabindex="-1"></a><span class="fu">ggplot</span>(merged, <span class="fu">aes</span>(<span class="at">x =</span> PC1, <span class="at">y =</span> PC2, <span class="at">color =</span> group, <span class="at">shape =</span> location)) <span class="sc">+</span></span>
+<span id="cb27-21"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-21" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb27-22"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-22" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb27-23"><a href="how-do-you-perform-ordination-e.g.-pca-to-visualize-sample-clustering.html#cb27-23" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;PCA of Microbiome Samples&quot;</span>, <span class="at">x =</span> <span class="st">&quot;PC1&quot;</span>, <span class="at">y =</span> <span class="st">&quot;PC2&quot;</span>)</span></code></pre></div>
+<p><img src="microbiome-eda_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
 </div>
             </section>
@@ -369,8 +401,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="how-do-you-process-raw-sequencing-data-into-a-feature-table-using-qiime2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="how-do-you-explore-and-summarize-a-microbiome-otu-table.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="how-do-you-visualize-alpha-diversity-richness-across-groups.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="how-do-you-visualize-otu-or-genus-abundance-using-a-heatmap.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -401,7 +433,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/datainsights/cdi-microbiome/edit/main/02-1-eda.Rmd",
+    "link": "https://github.com/datainsights/cdi-microbiome/edit/main/02-2-viz.Rmd",
     "text": "Edit"
   },
   "history": {
