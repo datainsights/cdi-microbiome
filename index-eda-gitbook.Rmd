@@ -39,19 +39,35 @@ favicon: "favicon.ico"
 
 # Welcome to CDI – Unlocking Microbial Insights {-}
 
-This guide introduces you to the world of microbial data and how to explore it meaningfully. Through accessible Q&As, you’ll begin analyzing abundance, diversity, and metadata in microbial ecosystems.
+Welcome to the **Microbiome Data Science Q&A Guide**, part of the Complex Data Insights (CDI) open learning series.
+
+This guide helps you make sense of microbial abundance, diversity, and metadata — all through a practical, question-driven approach. Whether you're a student, researcher, or data enthusiast, you'll explore key concepts step by step using real microbial datasets and modern tools.
+
+Let curiosity guide you — and let the data speak.
 
 ---
 
-## 📚 The CDI Learning Path {-}
+### 🌐 The CDI Learning Path {-}
 
-This guide is part of the **CDI layered learning system**, where insights from complex data are explored step by step through four progressive layers:
+This guide is part of the **Complex Data Insights (CDI)** learning system — an open educational project that combines:
 
-- **🔍 EDA (Exploratory Data Analysis)** – Start here. Understand your data, its structure, and quirks.
-- **📊 VIZ (Visualization)** – Learn how to communicate patterns and insights visually.
-- **📐 STATS (Statistical Analysis)** – Apply statistical methods to test hypotheses and quantify uncertainty.
-- **🤖 ML (Machine Learning)** – Use models to predict, classify, and extract deeper meaning.
+- 📘 **Free learning content**, licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (Creative Commons Attribution)  
+- 💻 **Code and scripts**, licensed under the [MIT License](https://opensource.org/license/mit/)
 
-You’re currently reading the Exploratory Data Analysis (EDA) layer — the free, open-access starting point of the CDI layered learning system.
+You're free to use, adapt, and redistribute this material for personal, academic, or non-commercial purposes — with proper attribution to **Complex Data Insights (CDI)**.
 
-Whether you're preparing for a remote role, analyzing real-world data, or mentoring others, CDI helps you grow — one Q&A at a time.
+CDI breaks down complex topics into four progressive layers, designed to be explored individually or as an integrated journey:
+
+- 🔍 **EDA (Exploratory Data Analysis)**  
+  Understand your data — explore its structure, patterns, and quirks.
+
+- 📊 **VIZ (Visualization)**  
+  Communicate findings through clear and compelling visuals.
+
+- 📐 **STATS (Statistical Analysis)**  
+  Test hypotheses and quantify uncertainty using sound statistical methods.
+
+- 🤖 **ML (Machine Learning)**  
+  Build models to predict, classify, and uncover deeper insights.
+
+**CDI helps you grow — one Q&A at a time.**
